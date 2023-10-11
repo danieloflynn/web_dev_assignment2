@@ -1,3 +1,11 @@
+/* Start global styles */
+header h1 {
+    text-align: center;
+}
+
+
+
+/* End global styles */
 /* Start count box styling */
 #count-boxes {
     width: 100vw;
@@ -5,12 +13,30 @@
     justify-content: space-evenly;
 }
 
+#count-title {
+    text-align: center;
+    border-style: solid;
+    border-radius: 3px;
+}
+
+#Republican-party {
+    background-color: lightcoral;
+}
+
+#Democrat-party {
+    background-color: lightblue;
+}
+
+#Independent-party {
+    background-color: blanchedalmond;
+}
+
 .count {
     display: grid;
     flex-direction: column;
     align-items: center;
     width: 300px;
-    height: 200px;
+    height: 110px;
     background-color: red;
     border-style: solid;
     border-color: black;
@@ -30,6 +56,7 @@
 .count-party {
     justify-self: center;
     align-self: flex-end;
+    margin: 0;
 }
 
 /* End count box styling */

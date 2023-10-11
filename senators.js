@@ -30,11 +30,30 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Make boxes for the count of senators by party
     // Takes object with parties as keys and number of senators as value
     function makePartyBoxes (partyObj) {
+
         for (let key in partyObj) {
             console.log(key);
             console.log(partyObj[key]);
-            let el = document.createElement("div");
-            document.getElementById("count-boxes").appendChild(el);
+
+            let cb = document.createElement("div");
+            cb.classList.add("count");
+            cb.setAttribute("id", key+"-party");
+            
+            let cn = document.createElement("h1");
+            cn.classList.add("count-number");
+            cn.innerHTML = partyObj[key];
+            
+            let cp = document.createElement("h2");
+            cp.classList.add("count-party");
+            cp.innerHTML = key;
+
+            document.getElementById("count-boxes").appendChild(cb).appendChild(cn).after(cp);
+
+
+
+
+
+            
             
         }
     }
@@ -45,7 +64,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const parties = getPartyNames(data);
     // object with party as key and count as value
     const partyCount = countSenatorsByParty(data,parties);
-
+    // Make the boxes with the count per party
     makePartyBoxes(partyCount);
 
 
