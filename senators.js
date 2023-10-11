@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const data = await getData();
     // Names of the different parties
     const parties = getPartyNames(data);
+    // object with party as key and count as value
     const partyCount = countSenatorsByParty(data,parties);
 
 
