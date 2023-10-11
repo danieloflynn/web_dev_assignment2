@@ -3,7 +3,7 @@
 ## Quick notes on using GitHub
 
 
-** Never push to main. ** 
+**Never push to main.** 
 
 Each feature should be its own branch, which then gets pulled to main via pull request.
 
@@ -12,12 +12,17 @@ When starting a new feature:
 
 While working on feature
 2. write and save code.
+
 3. Stage files.
+
 4. Commit changes. 
+
 5. push to feature branch on github periodically.
 
 When feature is done:
+
 6. Create pull request from main branch.
+
 7. Other person reviews and approves pull request.
 
 
