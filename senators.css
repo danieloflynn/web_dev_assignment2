@@ -6,17 +6,25 @@ header h1 {
 
 
 /* End global styles */
-/* Start count box styling */
-#count-boxes {
-    width: 100vw;
-    display: flex;
-    justify-content: space-evenly;
-}
+
+/* Start party count styling */
 
 #count-title {
     text-align: center;
     border-style: solid;
     border-radius: 3px;
+    margin: 0;
+}
+
+#bar-chart {
+    /* width: 100vw; */
+    height: 50px;
+    margin: 10px 0;
+}
+
+#count-boxes {
+    display: flex;
+    justify-content: space-between;
 }
 
 #Republican-party {
@@ -37,14 +45,9 @@ header h1 {
     align-items: center;
     width: 300px;
     height: 110px;
-    background-color: red;
     border-style: solid;
     border-color: black;
     border-radius: 3px;
-}
-
-.count:hover {
-    background-color: brown;
 }
 
 .count-number {

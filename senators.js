@@ -27,33 +27,36 @@ document.addEventListener("DOMContentLoaded", async () => {
         return partyCount;
     }
 
+    // This function will make the bar chart on top of the count boxes
+    // TODO: Create bar chart
+    function makeBarChart(partyObj) {
+        console.log("Need to make bar chart");
+    }
+
     // Make boxes for the count of senators by party
     // Takes object with parties as keys and number of senators as value
     function makePartyBoxes (partyObj) {
 
         for (let key in partyObj) {
-            console.log(key);
-            console.log(partyObj[key]);
 
+            // Make the count box
             let cb = document.createElement("div");
             cb.classList.add("count");
             cb.setAttribute("id", key+"-party");
             
+            // Add the count number
             let cn = document.createElement("h1");
             cn.classList.add("count-number");
             cn.innerHTML = partyObj[key];
-            
+
+
+            // Add the party name
             let cp = document.createElement("h2");
             cp.classList.add("count-party");
             cp.innerHTML = key;
 
+            // Add the count box to the count box container, insert the count number into count box, add party after count box
             document.getElementById("count-boxes").appendChild(cb).appendChild(cn).after(cp);
-
-
-
-
-
-            
             
         }
     }
@@ -63,9 +66,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Names of the different parties
     const parties = getPartyNames(data);
     // object with party as key and count as value
-    const partyCount = countSenatorsByParty(data,parties);
+    const partyObj = countSenatorsByParty(data,parties);
+    // This function will create the bar chart
+    makeBarChart(partyObj);
     // Make the boxes with the count per party
-    makePartyBoxes(partyCount);
+    makePartyBoxes(partyObj);
 
 
 
