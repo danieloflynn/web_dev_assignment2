@@ -22,6 +22,19 @@
 
 
     <script src="./senators.js"></script>
+
+       <!-- following script function taken from https://youtu.be/5VCY9yCZnlc?si=-tF-VqueN96viCZo & it displays all senator info in the browser console -->
+   <script>
+    fetch('senators.json').then(function(response){
+        return response.json();
+    }).then(function(obj){
+        console.log(obj);
+    }).catch(function(error){
+        console.error('Something went wrong with recieving the file!');
+        console.error(error);
+    });
+</script>
+
 </body>
 
 </html>
