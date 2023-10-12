@@ -1,0 +1,65 @@
+/* Start global styles */
+header h1 {
+    text-align: center;
+}
+
+
+
+/* End global styles */
+
+/* Start party count styling */
+
+#count-title {
+    text-align: center;
+    border-style: solid;
+    border-radius: 3px;
+    margin: 0;
+}
+
+#bar-chart {
+    /* width: 100vw; */
+    height: 50px;
+    margin: 10px 0;
+}
+
+#count-boxes {
+    display: flex;
+    justify-content: space-between;
+}
+
+#Republican-party {
+    background-color: lightcoral;
+}
+
+#Democrat-party {
+    background-color: lightblue;
+}
+
+#Independent-party {
+    background-color: blanchedalmond;
+}
+
+.count {
+    display: grid;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
+    height: 110px;
+    border-style: solid;
+    border-color: black;
+    border-radius: 3px;
+}
+
+.count-number {
+    margin: 0;
+    justify-self: center;
+    font-size: 4em;
+}
+
+.count-party {
+    justify-self: center;
+    align-self: flex-end;
+    margin: 0;
+}
+
+/* End count box styling */
