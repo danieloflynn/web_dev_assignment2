@@ -20,12 +20,31 @@ header h1 {
     /* width: 100vw; */
     height: 50px;
     margin: 10px 0;
+    display: flex;
+
+}
+
+.bar{
+    border: 2px solid black;
+}
+
+.Republican {
+    background-color: lightcoral;
+}
+
+.Democrat {
+    background-color: lightblue;
+}
+
+.Independent {
+    background-color: blanchedalmond;
 }
 
 #count-boxes {
     display: flex;
     justify-content: space-between;
 }
+
 
 #Republican-party {
     background-color: lightcoral;

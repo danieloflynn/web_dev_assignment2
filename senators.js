@@ -28,9 +28,26 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // This function will make the bar chart on top of the count boxes
-    // TODO: Create bar chart
     function makeBarChart(partyObj) {
-        console.log("Need to make bar chart");
+
+        // Get total senators
+        let totalSenators = 0;
+        for(key in partyObj) {
+            totalSenators += partyObj[key];
+        }
+        
+        // loop that creates boxes for each party and sizes/colours them accordingly
+        for(key in partyObj) {
+            let el = document.createElement("div");
+            el.classList.add("bar");
+            el.classList.add(key);
+            console.log(partyObj[key]*100/totalSenators.toString());
+            el.setAttribute("style", "width: " + partyObj[key]*100/totalSenators.toString() + "vw")
+            document.getElementById("bar-chart").appendChild(el)
+
+            
+        }
+
     }
 
     // Make boxes for the count of senators by party
