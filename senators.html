@@ -17,23 +17,20 @@
     </div>
     <div id="leadership"></div>
     <div id="filter"></div>
-    <div id="senators"></div>
+    <div id="senators">
+        <!-- making boxes here for each senator & pulling relevant data  -->
+        <h1 id="senator-list">List of all Senators</h1>
+        <div class="senator-box">
+           
+        </div>
+    </div>
+
     <footer></footer>
 
 
     <script src="./senators.js"></script>
 
-       <!-- following script function taken from https://youtu.be/5VCY9yCZnlc?si=-tF-VqueN96viCZo & it displays all senator info in the browser console -->
-   <script>
-    fetch('senators.json').then(function(response){
-        return response.json();
-    }).then(function(obj){
-        console.log(obj);
-    }).catch(function(error){
-        console.error('Something went wrong with recieving the file!');
-        console.error(error);
-    });
-</script>
+    </script>
 
 </body>
 
