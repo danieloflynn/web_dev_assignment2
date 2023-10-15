@@ -77,6 +77,52 @@ document.addEventListener("DOMContentLoaded", async () => {
             
         }
     }
+    // making boxes for each senator for full list
+    // pulls the following info from data variable :
+        // name, party, state, gender, rank, office, DOB, start date, twitter ID, youtube ID, website link
+
+    function extractSenatorInfomation(senatorData) {
+
+        var senatorInformationList = []; 
+
+        for (let senatorInformation of senatorData) {
+            console.log(senatorInformation)
+            var senator = {
+                name: senatorInformation.person.name,
+                party: senatorInformation.party,
+                state: senatorInformation.state,
+                gender: senatorInformation.person.gender,
+                rank: senatorInformation.senator_rank,
+                office: senatorInformation.office,
+                DOB: senatorInformation.person.birthday,
+                startDate: senatorInformation.startdate,
+                twitterID: senatorInformation.person.twitterid,
+                youtubeID: senatorInformation.person.youtubeid,
+                websiteLink: senatorInformation.website,
+            };
+            senatorInformationList.push(senator)
+        }
+        return senatorInformationList; 
+    }
+    
+    // function to make senator list
+    function makeSenatorList(data) {
+        var senators = extractSenatorInfomation(data);
+        var senatorListEl = document.getElementById("senators")
+
+        for (let senator of senators) {
+            var senatorEl = document.createElement("div", {class: "senator-box"}); //<div class ="senator-box"></div>
+            Object.keys(senator).forEach(function(key){
+                var fieldEl = document.createElement("div"); //<div></div>
+                fieldEl.innerText = senator[key]; //<div>Tara</div>
+                senatorEl.appendChild(fieldEl); //<div class ="senator-box"><div>Tara</div></div>
+            })
+            senatorListEl.appendChild(senatorEl)
+        }
+        
+    }
+
+
 
     // Pull the data from JSON file
     const data = await getData();
@@ -88,7 +134,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     makeBarChart(partyObj);
     // Make the boxes with the count per party
     makePartyBoxes(partyObj);
-
+    //make senator list
+    makeSenatorList(data.objects);
 
 
 });
