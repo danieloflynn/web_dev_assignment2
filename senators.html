@@ -20,14 +20,14 @@
     </div>
     <div id="leadership"></div>
     <div id="filters">
-        <button class="filter-box" id="party-filter">
+        <button class="filter-box" id="party-filter" onclick="toggleDropdown('party-dropdown')">
             <div class="filter-text">
                 <h3>Party</h3> 
                 <p>Selected: All</p>
             </div>
             <div class="filter-arrow"><i class="fa fa-caret-down"></i></div>
         </button>
-        <ul id="party-dropdown">
+        <ul id="party-dropdown" class="dropdown hide">
             <li>Republican</li>
             <li>Democrat</li>
             <li>Independent</li>
