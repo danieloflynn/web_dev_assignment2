@@ -21,8 +21,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     // returns an object with party as key and count as value
     function countSenatorsByParty(data, parties) {
         let partyCount = {};
-        for(let party of parties) {
-            partyCount[party] = data["objects"].filter(x=>x["party"] == party).length;
+
+        for (let senator of data.objects) {
+            if (!partyCount[senator.party]) {
+                partyCount[senator.party] = 0;
+            }
+            partyCount[senator.party] += 1;
         }
         return partyCount;
     }
@@ -35,6 +39,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         for(key in partyObj) {
             totalSenators += partyObj[key];
         }
+
+        
         
         // loop that creates boxes for each party and sizes/colours them accordingly
         for(key in partyObj) {
