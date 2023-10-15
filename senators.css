@@ -83,6 +83,61 @@ header h1 {
 
 /* End count box styling */
 
+/* Start Filter Box Styling */
+
+#filters {
+    display: flex;
+    flex-direction: column;
+    min-height: 100px;
+    width: 150px;
+    border: 2px solid black;
+    margin: 10px;
+}
+
+.filter-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5px 5px;
+    border: 2px solid black;
+    margin: 5px;
+}
+
+.filter-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.filter-text h3 {
+    margin: 0;
+    padding-right: 20px;
+}
+
+.filter-text p {
+    margin: 0;
+}
+
+.filter-arrow {
+    display: flex;
+    align-self: center;
+}
+
+#filters ul {
+    padding: 0;
+}
+
+#party-dropdown {
+    display: none;
+}
+
+#filters ul li {
+    list-style: none;
+    /* text-align: left; */
+}
+
+/* End Filter Box Styling */
+
 
 /* Start Senator List Styling */
 

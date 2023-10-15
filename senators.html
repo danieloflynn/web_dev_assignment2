@@ -4,24 +4,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="./senators.css">
     <title>US Senators</title>
 </head>
 
 <body>
-    <header><h1>US Senators</h1></header>
+    <header>
+        <h1>US Senators</h1>
+    </header>
     <div id="count-container">
         <h1 id="count-title">Senators by Party</h1>
         <div id="bar-chart"></div>
         <div id="count-boxes"></div>
     </div>
     <div id="leadership"></div>
-    <div id="filter"></div>
+    <div id="filters">
+        <button class="filter-box" id="party-filter">
+            <div class="filter-text">
+                <h3>Party</h3> 
+                <p>Selected: All</p>
+            </div>
+            <div class="filter-arrow"><i class="fa fa-caret-down"></i></div>
+        </button>
+        <ul id="party-dropdown">
+            <li>Republican</li>
+            <li>Democrat</li>
+            <li>Independent</li>
+        </ul>
+        <button class="filter-box" id="state-filter">
+            <div class="filter-upper-text">
+                <h3>State</h3><i class="fa fa-caret-down"></i>
+            </div>
+
+        </button>
+        <button class="filter-box" id="rank-filter">
+            <div class="filter-upper-text">
+                <h3>Rank</h3><i class="fa fa-caret-down"></i>
+            </div>
+        </button>
+
+    </div>
     <div id="senators">
         <!-- making boxes here for each senator & pulling relevant data  -->
         <h1 id="senator-list">List of all Senators</h1>
         <div class="senator-box">
-           
+
         </div>
     </div>
 
