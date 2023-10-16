@@ -33,7 +33,7 @@
             </button>
             <ul id="party-dropdown" class="dropdown hide">
                 <!-- TODO Have these elements all insterted via JS -->
-                <li id="party-all"><p>All</p> <p class="check-mark">&check;</p></li>
+                <li class="filter-list" id="party-all"><p>All</p> <p class="check-mark">&check;</p></li>
             </ul>
             <button class="filter-box" id="state-filter" onclick="toggleDropdown('state-dropdown')">
                 <div class="filter-text">
@@ -45,19 +45,18 @@
             </button>
             <ul id="state-dropdown" class="dropdown hide">
                 <!-- TODO Have these elements all insterted via JS -->
-                <li id="state-all"><p>All</p> <p class="check-mark">&check;</p></li>
+                <li class="filter-list" id="state-search"><input id="state-search-bar" type="text" onkeyup="searchStates()"></li>
+                <li class="filter-list" id="state-all"><p>All</p> <p class="check-mark">&check;</p></li>
             </ul>
-            <button class="filter-box" id="state-filter" onclick="toggleDropdown('gender-dropdown')">
+            <button class="filter-box" id="gender-filter" onclick="toggleDropdown('gender-dropdown')">
                 <div class="filter-text">
                     <h3>Gender</h3>
-                    <!-- TODO: have selected dynamically change via JS -->
                     <p>Selected: All</p>
                 </div>
                 <div class="filter-arrow"><i class="fa fa-caret-down"></i></div>
             </button>
             <ul id="gender-dropdown" class="dropdown hide">
-                <!-- TODO Have these elements all insterted via JS -->
-                <li id="gender-all"><p>All</p> <p class="check-mark">&check;</p></li>
+                <li class="filter-list" id="gender-all"><p>All</p> <p class="check-mark">&check;</p></li>
             </ul>
 
             <button class="filter-box" id="party-filter" onclick="toggleDropdown('rank-dropdown')">
@@ -69,8 +68,7 @@
                 <div class="filter-arrow"><i class="fa fa-caret-down"></i></div>
             </button>
             <ul id="rank-dropdown" class="dropdown hide">
-                <!-- TODO Have these elements all insterted via JS -->
-                <li id="rank-all"><p>All</p> <p class="check-mark">&check;</p></li>
+                <li class="filter-list" id="rank-all"><p>All</p> <p class="check-mark">&check;</p></li>
             </ul>
 
         </div>

@@ -164,7 +164,7 @@ header h1 {
     /* display: block; */
 }
 
-.dropdown li {
+.filter-list {
     list-style: none;
     display: flex;
     justify-content: space-between;
@@ -188,6 +188,9 @@ header h1 {
     display: none;
 }
 
+#state-search input{
+    width: 100%;
+}
 /* End Filter Box Styling */
 
 
