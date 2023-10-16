@@ -145,7 +145,7 @@ function insertFilterOptions(filters) {
         // create list item
         let el = document.createElement("li");
         el.setAttribute('id', name);
-        el.onclick = ()=> {toggleSelection(grouping, name)};
+        el.onclick = () => { toggleSelection(grouping, name) };
         // create p tag for the text
         let p = document.createElement("p");
         p.innerHTML = name;
@@ -168,17 +168,14 @@ function insertFilterOptions(filters) {
         makeFilterBox(party, "party");
     }
 
-    let statelist = document.getElementById("state-all");
     for (let state of filters["states"]) {
         makeFilterBox(state, "state");
     }
 
-    let genderlist = document.getElementById("gender-all");
     for (let gender of filters["gender"]) {
         makeFilterBox(gender, "gender");
     }
 
-    let ranklist = document.getElementById("rank-all");
     for (let rank of filters["rank"]) {
         makeFilterBox(rank, "rank");
     }
@@ -207,7 +204,7 @@ function selectAll(grouping) {
 // function will toggle hide on the corresponding senators, the check mark
 // !NOTE: We will need some way of making sure when checking something that it's not unchecked in one of the other 
 function toggleSelection(grouping, item) {
-    let checkbox = document.getElementById(item+"-check");
+    let checkbox = document.getElementById(item + "-check");
     checkbox.classList.toggle("hide");
 }
 
