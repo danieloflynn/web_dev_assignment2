@@ -98,6 +98,25 @@ function extractSenatorInfomation(senatorData) {
     return senatorInformationList;
 }
 
+// Search function for states
+// Adds "hide" class to any list items that don't match search
+function searchStates() {
+    let search = document.getElementById("state-search-bar").value.toUpperCase();
+    let el = document.getElementById("state-dropdown");
+    for (let option of el.children) {
+        let id = option.getAttribute('id');
+        if ( id != "state-search" && id != "state-all" && (id.toUpperCase().indexOf(search) == -1)) {
+            document.getElementById(id).classList.add("hide");            
+        } else {
+            console.log(option);
+            document.getElementById(id).classList.remove("hide");
+        }
+    }
+
+}
+
+
+
 // function to make senator list
 function makeSenatorList(data) {
     var senators = extractSenatorInfomation(data);
@@ -127,10 +146,10 @@ function makeSenatorList(data) {
 function getFilterNames(data) {
 
     return {
-        "parties": new Set(data["objects"].map(x => x["party"])),
-        "states": new Set(data["objects"].map(x => x["state"])),
-        "gender": new Set(data["objects"].map(x => x["person"]["gender_label"])),
-        "rank": new Set(data["objects"].map(x => x["senator_rank_label"])),
+        "parties": Array.from(new Set(data["objects"].map(x => x["party"]))).sort().reverse(),
+        "states": Array.from(new Set(data["objects"].map(x => x["state"]))).sort().reverse(),
+        "gender": Array.from(new Set(data["objects"].map(x => x["person"]["gender_label"]))).sort().reverse(),
+        "rank": Array.from(new Set(data["objects"].map(x => x["senator_rank_label"]))).sort().reverse(),
     };
 }
 
@@ -145,6 +164,7 @@ function insertFilterOptions(filters) {
         // create list item
         let el = document.createElement("li");
         el.setAttribute('id', name);
+        el.classList.add("filter-list");
         el.onclick = () => { toggleSelection(grouping, name) };
         // create p tag for the text
         let p = document.createElement("p");
@@ -212,11 +232,8 @@ function toggleSelection(grouping, item) {
 // End Filter Manipulation Functions
 
 
-
 // Add event listener allows HTML to be loaded first before JS starts. Best practice
 document.addEventListener("DOMContentLoaded", async () => {
-
-
 
     // Pull the data from JSON file
     const data = await getData();
