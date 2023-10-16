@@ -19,37 +19,70 @@
         <div id="count-boxes"></div>
     </div>
     <div id="leadership"></div>
-    <div id="filters">
-        <button class="filter-box" id="party-filter" onclick="toggleDropdown('party-dropdown')">
-            <div class="filter-text">
-                <h3>Party</h3> 
-                <p>Selected: All</p>
-            </div>
-            <div class="filter-arrow"><i class="fa fa-caret-down"></i></div>
-        </button>
-        <ul id="party-dropdown" class="dropdown hide">
-            <li>Republican</li>
-            <li>Democrat</li>
-            <li>Independent</li>
-        </ul>
-        <button class="filter-box" id="state-filter">
-            <div class="filter-upper-text">
-                <h3>State</h3><i class="fa fa-caret-down"></i>
-            </div>
 
-        </button>
-        <button class="filter-box" id="rank-filter">
-            <div class="filter-upper-text">
-                <h3>Rank</h3><i class="fa fa-caret-down"></i>
+    <div id="senator-container">
+        <div id="filters">
+            <h3 id="filter-title">Filters</h3>
+            <button class="filter-box" id="party-filter" onclick="toggleDropdown('party-dropdown')">
+                <div class="filter-text">
+                    <h3>Party</h3>
+                    <!-- TODO: have selected dynamically change via JS -->
+                    <p>Selected: All</p>
+                </div>
+                <div class="filter-arrow"><i class="fa fa-caret-down"></i></div>
+            </button>
+            <ul id="party-dropdown" class="dropdown hide">
+                <!-- TODO Have these elements all insterted via JS -->
+                <li id="party-all"><p>All</p> <p class="check-mark">&check;</p></li>
+                <li>Republican</li>
+                <li>Democrat</li>
+                <li>Independent</li>
+            </ul>
+            <button class="filter-box" id="state-filter" onclick="toggleDropdown('state-dropdown')">
+                <div class="filter-text">
+                    <h3>State</h3>
+                    <!-- TODO: have selected dynamically change via JS -->
+                    <p>Selected: All</p>
+                </div>
+                <div class="filter-arrow"><i class="fa fa-caret-down"></i></div>
+            </button>
+            <ul id="state-dropdown" class="dropdown hide">
+                <!-- TODO Have these elements all insterted via JS -->
+                <li id="state-all">All</li>
+            </ul>
+            <button class="filter-box" id="state-filter" onclick="toggleDropdown('gender-dropdown')">
+                <div class="filter-text">
+                    <h3>Gender</h3>
+                    <!-- TODO: have selected dynamically change via JS -->
+                    <p>Selected: All</p>
+                </div>
+                <div class="filter-arrow"><i class="fa fa-caret-down"></i></div>
+            </button>
+            <ul id="gender-dropdown" class="dropdown hide">
+                <!-- TODO Have these elements all insterted via JS -->
+                <li>All</li>
+            </ul>
+
+            <button class="filter-box" id="party-filter" onclick="toggleDropdown('rank-dropdown')">
+                <div class="filter-text">
+                    <h3>Rank</h3>
+                    <!-- TODO: have selected dynamically change via JS -->
+                    <p>Selected: All</p>
+                </div>
+                <div class="filter-arrow"><i class="fa fa-caret-down"></i></div>
+            </button>
+            <ul id="rank-dropdown" class="dropdown hide">
+                <!-- TODO Have these elements all insterted via JS -->
+                <li id="rank-all">All</li>
+            </ul>
+
+        </div>
+        <div id="senators">
+            <!-- making boxes here for each senator & pulling relevant data  -->
+            <h1 id="senator-list">List of all Senators</h1>
+            <div class="senator-box">
+
             </div>
-        </button>
-
-    </div>
-    <div id="senators">
-        <!-- making boxes here for each senator & pulling relevant data  -->
-        <h1 id="senator-list">List of all Senators</h1>
-        <div class="senator-box">
-
         </div>
     </div>
 

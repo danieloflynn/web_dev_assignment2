@@ -1,4 +1,8 @@
 /* Start global styles */
+*{
+    font-family: sans-serif;
+}
+
 header h1 {
     text-align: center;
 }
@@ -83,6 +87,15 @@ header h1 {
 
 /* End count box styling */
 
+/* Start Senator styling */
+#senator-container {
+    display: flex;
+    align-items: flex-start;
+
+}
+
+/* End Senator styling */
+
 /* Start Filter Box Styling */
 
 #filters {
@@ -94,6 +107,13 @@ header h1 {
     margin: 10px;
 }
 
+#filter-title {
+    padding: 0;
+    margin: 0;
+    margin-left: 10px;
+    margin-top: 5px;
+}
+
 .filter-box {
     display: flex;
     flex-direction: row;
@@ -101,6 +121,10 @@ header h1 {
     padding: 5px 5px;
     border: 2px solid black;
     margin: 5px;
+}
+
+.filter-box:hover {
+    background-color: lightgray;
 }
 
 .filter-text {
@@ -111,7 +135,9 @@ header h1 {
 
 .filter-text h3 {
     margin: 0;
+    padding-left: 0;
     padding-right: 20px;
+    text-align: left;
 }
 
 .filter-text p {
@@ -137,12 +163,21 @@ header h1 {
     /* display: block; */
 }
 
-#filters ul li {
+.dropdown li {
     list-style: none;
+    display: flex;
+    justify-content: space-between;
     padding: 5px 5px;
     margin: 0;
     /* text-align: left; */
 }
+
+.dropdown li p {
+    padding: 0;
+    margin: 0;
+}
+
+
 
 #filters ul li:hover {
     background-color: lightgray;
