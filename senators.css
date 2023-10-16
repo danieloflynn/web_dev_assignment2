@@ -1,4 +1,8 @@
 /* Start global styles */
+*{
+    font-family: sans-serif;
+}
+
 header h1 {
     text-align: center;
 }
@@ -82,6 +86,109 @@ header h1 {
 }
 
 /* End count box styling */
+
+/* Start Senator styling */
+#senator-container {
+    display: flex;
+    align-items: flex-start;
+
+}
+
+/* End Senator styling */
+
+/* Start Filter Box Styling */
+
+#filters {
+    display: flex;
+    flex-direction: column;
+    min-height: 100px;
+    width: 150px;
+    border: 2px solid black;
+    margin: 10px;
+}
+
+#filter-title {
+    padding: 0;
+    margin: 0;
+    margin-left: 10px;
+    margin-top: 5px;
+}
+
+.filter-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5px 5px;
+    border: 2px solid black;
+    margin: 5px;
+}
+
+.filter-box:hover {
+    background-color: lightgray;
+}
+
+.filter-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.filter-text h3 {
+    margin: 0;
+    padding-left: 0;
+    padding-right: 20px;
+    text-align: left;
+}
+
+.filter-text p {
+    margin: 0;
+}
+
+.filter-arrow {
+    display: flex;
+    align-self: center;
+}
+
+#filters ul {
+    padding: 0;
+}
+
+.dropdown {
+    padding:0;
+    margin: 0 5px;
+    border: 2px solid black;
+    margin-bottom: 5px;
+}
+
+#party-dropdown {
+    /* display: block; */
+}
+
+.dropdown li {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 5px;
+    margin: 0;
+    /* text-align: left; */
+}
+
+.dropdown li p {
+    padding: 0;
+    margin: 0;
+}
+
+
+
+#filters ul li:hover {
+    background-color: lightgray;
+}
+
+.hide {
+    display: none;
+}
+
+/* End Filter Box Styling */
 
 
 /* Start Senator List Styling */
