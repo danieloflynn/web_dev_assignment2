@@ -157,6 +157,7 @@ header h1 {
     padding:0;
     margin: 0 5px;
     border: 2px solid black;
+    margin-bottom: 5px;
 }
 
 #party-dropdown {

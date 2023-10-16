@@ -6,18 +6,6 @@ async function getData() {
 
 }
 
-// get all the filter names
-// Returns a set object with all party names
-function getFilterNames(data) {
-
-    return {
-        "parties": new Set(data["objects"].map(x => x["party"])),
-        "states": new Set(data["objects"].map(x => x["state"])),
-        "gender": new Set(data["objects"].map(x => x["gender_label"])),
-        "rank": new Set(data["objects"].map(x => x["senator_rank_label"])),
-    };
-}
-
 // count senators by party
 // returns an object with party as key and count as value
 function countSenatorsByParty(data) {
@@ -48,10 +36,8 @@ function makeBarChart(partyObj) {
         let el = document.createElement("div");
         el.classList.add("bar");
         el.classList.add(key);
-        console.log(partyObj[key] * 100 / totalSenators.toString());
         el.setAttribute("style", "width: " + partyObj[key] * 100 / totalSenators.toString() + "vw")
         document.getElementById("bar-chart").appendChild(el)
-
 
     }
 
@@ -94,7 +80,6 @@ function extractSenatorInfomation(senatorData) {
     var senatorInformationList = [];
 
     for (let senatorInformation of senatorData) {
-        console.log(senatorInformation)
         var senator = {
             name: senatorInformation.person.name,
             party: senatorInformation.party,
@@ -132,7 +117,77 @@ function makeSenatorList(data) {
 
 
 
-// Start Filter Manipulation Functions
+// Start Filter Creation/Manipulation Functions
+// This 
+
+
+// get all the filter names
+// Returns a set object with all party names
+// TODO: Change this to take the set from senatorList instead of the raw data
+function getFilterNames(data) {
+
+    return {
+        "parties": new Set(data["objects"].map(x => x["party"])),
+        "states": new Set(data["objects"].map(x => x["state"])),
+        "gender": new Set(data["objects"].map(x => x["person"]["gender_label"])),
+        "rank": new Set(data["objects"].map(x => x["senator_rank_label"])),
+    };
+}
+
+
+// This function will take filters and insert them into each filter category
+// Takes in filter object, with names = name of category (state, gender, etc) and values = set of options
+function insertFilterOptions(filters) {
+    // This function will create each individual filter box
+    // Takes name and "All" box element name
+    function makeFilterBox(name, grouping) {
+        let allBox = document.getElementById(grouping + "-all");
+        // create list item
+        let el = document.createElement("li");
+        el.setAttribute('id', name);
+        el.onclick = ()=> {toggleSelection(grouping, name)};
+        // create p tag for the text
+        let p = document.createElement("p");
+        p.innerHTML = name;
+        // create p tag for the checkmark
+        let pcheck = document.createElement("p");
+        pcheck.innerHTML = "&check;";
+        pcheck.classList.add("check-mark");
+        pcheck.setAttribute("id", name + "-check");
+        // insert elements
+        allBox.after(el);
+        el.appendChild(p);
+        p.after(pcheck);
+    }
+
+
+    // Insert options
+    // TODO: put the for loop into the makeFilterBox function
+
+    for (let party of filters["parties"]) {
+        makeFilterBox(party, "party");
+    }
+
+    let statelist = document.getElementById("state-all");
+    for (let state of filters["states"]) {
+        makeFilterBox(state, "state");
+    }
+
+    let genderlist = document.getElementById("gender-all");
+    for (let gender of filters["gender"]) {
+        makeFilterBox(gender, "gender");
+    }
+
+    let ranklist = document.getElementById("rank-all");
+    for (let rank of filters["rank"]) {
+        makeFilterBox(rank, "rank");
+    }
+
+
+}
+
+
+
 
 // This function toggles the dropdowns for filter boxes
 // Takes tagID as string, toggles display on said box
@@ -152,7 +207,8 @@ function selectAll(grouping) {
 // function will toggle hide on the corresponding senators, the check mark
 // !NOTE: We will need some way of making sure when checking something that it's not unchecked in one of the other 
 function toggleSelection(grouping, item) {
-
+    let checkbox = document.getElementById(item+"-check");
+    checkbox.classList.toggle("hide");
 }
 
 
@@ -167,14 +223,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Pull the data from JSON file
     const data = await getData();
-    // Names of the different parties
-    const filters = getFilterNames(data);
     // object with party as key and count as value
     const partyObj = countSenatorsByParty(data);
     // This function will create the bar chart
     makeBarChart(partyObj);
     // Make the boxes with the count per party
     makePartyBoxes(partyObj);
+    // filter object with state, party, gender, rank, for insertion into filter boxes
+    const filters = getFilterNames(data);
+    // Insert filter options
+    insertFilterOptions(filters);
     //make senator list
     makeSenatorList(data.objects);
 
