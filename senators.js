@@ -108,7 +108,6 @@ function searchStates() {
         if ( id != "state-search" && id != "state-all" && (id.toUpperCase().indexOf(search) == -1)) {
             document.getElementById(id).classList.add("hide");            
         } else {
-            console.log(option);
             document.getElementById(id).classList.remove("hide");
         }
     }
