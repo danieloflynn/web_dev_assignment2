@@ -3,21 +3,21 @@
 async function getData() {
     let json;
     try {
-    // try block 
+        // try block 
         let data = await fetch("./senators.json");
         // if not successful:
-        if (data.ok){
+        if (data.ok) {
             json = await data.json(); //assign value don't declare, scoping was causing me heartfailure :) 
         }
     }
-    catch(error){
+    catch (error) {
         console.log(error)
         // document.getElementById("").innerText = error;
     }
 
     return json;
     // TODO use else blocks to check if HTTP status code is in range 400-499(client) or 500-599(server side) or outside ranges(unknown)
- 
+
 
 }
 
@@ -91,7 +91,7 @@ function makePartyBoxes(partyObj) {
 // name, party, state, gender, rank, office, DOB, start date, twitter ID, youtube ID, website link
 
 function extractSenatorInfomation(senatorData) {
-//make sort by ranking & party 
+    //make sort by ranking & party 
 
     var senatorInformationList = [];
 
@@ -108,6 +108,7 @@ function extractSenatorInfomation(senatorData) {
             twitterID: senatorInformation.person.twitterid,
             youtubeID: senatorInformation.person.youtubeid,
             websiteLink: senatorInformation.website,
+            osid: senatorInformation.person.osid
         };
         senatorInformationList.push(senator)
     }
@@ -121,10 +122,9 @@ function searchStates() {
     let el = document.getElementById("state-dropdown");
     for (let option of el.children) {
         let id = option.getAttribute('id');
-        if ( id != "state-search" && id != "state-all" && (id.toUpperCase().indexOf(search) == -1)) {
-            document.getElementById(id).classList.add("hide");            
+        if (id != "state-search" && id != "state-all" && (id.toUpperCase().indexOf(search) == -1)) {
+            document.getElementById(id).classList.add("hide");
         } else {
-            console.log(option);
             document.getElementById(id).classList.remove("hide");
         }
     }
@@ -138,9 +138,12 @@ function makeSenatorList(senators) {
     var senatorListEl = document.getElementById("senators")
 
     for (let senator of senators) {
-        var senatorEl = document.createElement("div", { class: "senator-box" }); //<div class ="senator-box"></div>
+        console.log(senator);
+        var senatorEl = document.createElement("div"); //<div class ="senator-box"></div>
+        senatorEl.setAttribute("id", senator.osid);
         Object.keys(senator).forEach(function (key) {
             var fieldEl = document.createElement("div"); //<div></div>
+            
             fieldEl.innerText = senator[key]; //<div>Tara</div>
             senatorEl.appendChild(fieldEl); //<div class ="senator-box"><div>Tara</div></div>
         })
@@ -248,7 +251,7 @@ function selectAll(grouping) {
 
     // Finally toggle check on all box
     document.getElementById(grouping + '-all-check').classList.toggle("hide");
-    
+
 
 }
 
@@ -257,9 +260,9 @@ function selectAll(grouping) {
 // !NOTE: We will need some way of making sure when checking something that it's not unchecked in one of the other 
 function toggleSelection(grouping, item) {
     let checkbox = document.getElementById(item + "-check");
-    
+
     checkbox.classList.toggle("hide");
-    
+
 }
 
 
