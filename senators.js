@@ -3,20 +3,27 @@
 async function getData() {
     let json;
     try {
-    // try block 
+    // try block //TODO might need to change the element where error message is displayed?
         let data = await fetch("./senators.json");
         // if not successful:
         if (data.ok){
             json = await data.json(); //assign value don't declare, scoping was causing me heartfailure :) 
+        } else if (data.status >= 400 && data.status < 500) {
+            // Client-side error
+            document.getElementById("div").innerText = "Client-side error: HTTP status code " + data.status;
+        } else if (data.status >= 500) {
+            // Server-side error
+            document.getElementById("div").innerText = "Server-side error: HTTP status code " + data.status;
+        } else {
+            // Unknown error
+            document.getElementById("div").innerText = "Unknown error: HTTP status code " + data.status;
         }
     }
     catch(error){
-        console.log(error)
-        // document.getElementById("").innerText = error;
+        document.getElementById("div").innerText = "Error: " + error.message;
     }
 
     return json;
-    // TODO use else blocks to check if HTTP status code is in range 400-499(client) or 500-599(server side) or outside ranges(unknown)
  
 
 }
