@@ -20,7 +20,7 @@
     </div>
     <div id="leadership"></div>
 
-        <!-- adding senior senators here  -->
+    <!-- adding senior senators here  -->
 
     <div id="senator-container">
         <div id="filters">
@@ -35,7 +35,10 @@
             </button>
             <ul id="party-dropdown" class="dropdown hide">
                 <!-- TODO Have these elements all insterted via JS -->
-                <li class="filter-list" id="party-all"><p>All</p> <p class="check-mark">&check;</p></li>
+                <li class="filter-list" id="party-all" onclick="selectAll('party')">
+                    <p>All</p>
+                    <p class="check-mark" id="party-all-check">&check;</p>
+                </li>
             </ul>
             <button class="filter-box" id="state-filter" onclick="toggleDropdown('state-dropdown')">
                 <div class="filter-text">
@@ -47,8 +50,12 @@
             </button>
             <ul id="state-dropdown" class="dropdown hide">
                 <!-- TODO Have these elements all insterted via JS -->
-                <li class="filter-list" id="state-search"><input id="state-search-bar" type="text" onkeyup="searchStates()"></li>
-                <li class="filter-list" id="state-all"><p>All</p> <p class="check-mark">&check;</p></li>
+                <li class="filter-list" id="state-search"><input id="state-search-bar" type="text"
+                        onkeyup="searchStates()"></li>
+                <li class="filter-list" id="state-all" onclick="selectAll('state')">
+                    <p>All</p>
+                    <p class="check-mark" id="state-all-check">&check;</p>
+                </li>
             </ul>
             <button class="filter-box" id="gender-filter" onclick="toggleDropdown('gender-dropdown')">
                 <div class="filter-text">
@@ -58,7 +65,10 @@
                 <div class="filter-arrow"><i class="fa fa-caret-down"></i></div>
             </button>
             <ul id="gender-dropdown" class="dropdown hide">
-                <li class="filter-list" id="gender-all"><p>All</p> <p class="check-mark">&check;</p></li>
+                <li class="filter-list" id="gender-all" onclick="selectAll('gender')">
+                    <p>All</p>
+                    <p class="check-mark" id="gender-all-check">&check;</p>
+                </li>
             </ul>
 
             <button class="filter-box" id="party-filter" onclick="toggleDropdown('rank-dropdown')">
@@ -70,7 +80,10 @@
                 <div class="filter-arrow"><i class="fa fa-caret-down"></i></div>
             </button>
             <ul id="rank-dropdown" class="dropdown hide">
-                <li class="filter-list" id="rank-all"><p>All</p> <p class="check-mark">&check;</p></li>
+                <li class="filter-list" id="rank-all" onclick="selectAll('rank')">
+                    <p>All</p>
+                    <p class="check-mark" id="rank-all-check">&check;</p>
+                </li>
             </ul>
 
         </div>

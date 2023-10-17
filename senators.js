@@ -134,8 +134,7 @@ function searchStates() {
 
 
 // function to make senator list
-function makeSenatorList(data) {
-    var senators = extractSenatorInfomation(data);
+function makeSenatorList(senators) {
     var senatorListEl = document.getElementById("senators")
 
     for (let senator of senators) {
@@ -162,8 +161,8 @@ function makeSenatorList(data) {
 function getFilterNames(data) {
 
     return {
-        "parties": Array.from(new Set(data["objects"].map(x => x["party"]))).sort().reverse(),
-        "states": Array.from(new Set(data["objects"].map(x => x["state"]))).sort().reverse(),
+        "party": Array.from(new Set(data["objects"].map(x => x["party"]))).sort().reverse(),
+        "state": Array.from(new Set(data["objects"].map(x => x["state"]))).sort().reverse(),
         "gender": Array.from(new Set(data["objects"].map(x => x["person"]["gender_label"]))).sort().reverse(),
         "rank": Array.from(new Set(data["objects"].map(x => x["senator_rank_label"]))).sort().reverse(),
     };
@@ -200,11 +199,11 @@ function insertFilterOptions(filters) {
     // Insert options
     // TODO: put the for loop into the makeFilterBox function
 
-    for (let party of filters["parties"]) {
+    for (let party of filters["party"]) {
         makeFilterBox(party, "party");
     }
 
-    for (let state of filters["states"]) {
+    for (let state of filters["state"]) {
         makeFilterBox(state, "state");
     }
 
@@ -233,6 +232,23 @@ function toggleDropdown(tagID) {
 // Will take in grouping as string (either Part, State, or rank)
 // Removes all of the filters for that grouping on all senators, unchecks all other boxes in that filter section
 function selectAll(grouping) {
+    // check if checkmark present for all box
+    let isChecked = !document.getElementById(grouping + '-all-check').classList.contains("hide");
+
+    if (isChecked) {
+        // uncheck everything
+        for (let tagID of filters[grouping]) {
+            document.getElementById(tagID + "-check").classList.add("hide");
+        }
+    } else {
+        for (let tagID of filters[grouping]) {
+            document.getElementById(tagID + "-check").classList.remove("hide");
+        }
+    }
+
+    // Finally toggle check on all box
+    document.getElementById(grouping + '-all-check').classList.toggle("hide");
+    
 
 }
 
@@ -241,19 +257,20 @@ function selectAll(grouping) {
 // !NOTE: We will need some way of making sure when checking something that it's not unchecked in one of the other 
 function toggleSelection(grouping, item) {
     let checkbox = document.getElementById(item + "-check");
+    
     checkbox.classList.toggle("hide");
+    
 }
 
 
 // End Filter Manipulation Functions
-
+let filters;
 
 // Add event listener allows HTML to be loaded first before JS starts. Best practice
 document.addEventListener("DOMContentLoaded", async () => {
 
     // Pull the data from JSON file
     const data = await getData();
-    console.log(data)
     // object with party as key and count as value
     const partyObj = countSenatorsByParty(data);
     // This function will create the bar chart
@@ -261,11 +278,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Make the boxes with the count per party
     makePartyBoxes(partyObj);
     // filter object with state, party, gender, rank, for insertion into filter boxes
-    const filters = getFilterNames(data);
+    filters = getFilterNames(data);
     // Insert filter options
     insertFilterOptions(filters);
+
     //make senator list
-    makeSenatorList(data.objects);
+    let senators = extractSenatorInfomation(data.objects);
+    makeSenatorList(senators);
 
 
 });
