@@ -1,8 +1,23 @@
 // fetch data from the JSON file
+// adding error check function
 async function getData() {
-    let data = await fetch("./senators.json");
-    let json = data.json();
+    let json;
+    try {
+    // try block 
+        let data = await fetch("./senators.json");
+        // if not successful:
+        if (data.ok){
+            json = await data.json(); //assign value don't declare, scoping was causing me heartfailure :) 
+        }
+    }
+    catch(error){
+        console.log(error)
+        // document.getElementById("").innerText = error;
+    }
+
     return json;
+    // TODO use else blocks to check if HTTP status code is in range 400-499(client) or 500-599(server side) or outside ranges(unknown)
+ 
 
 }
 
@@ -76,6 +91,7 @@ function makePartyBoxes(partyObj) {
 // name, party, state, gender, rank, office, DOB, start date, twitter ID, youtube ID, website link
 
 function extractSenatorInfomation(senatorData) {
+//make sort by ranking & party 
 
     var senatorInformationList = [];
 
@@ -133,7 +149,7 @@ function makeSenatorList(data) {
     }
 
 }
-
+// function to create senior senator list 
 
 
 // Start Filter Creation/Manipulation Functions
@@ -237,6 +253,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Pull the data from JSON file
     const data = await getData();
+    console.log(data)
     // object with party as key and count as value
     const partyObj = countSenatorsByParty(data);
     // This function will create the bar chart
