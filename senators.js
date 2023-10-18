@@ -229,6 +229,44 @@ function toggleDropdown(tagID) {
     document.getElementById(tagID).classList.toggle("hide");
 }
 
+// This function checks what's selected in the filter
+// It takes in the filter grouping
+// Goes through all the html elements in the filter dropdown and checks if the checkmark is hidden or not
+function getSelectedFilters(grouping) {
+    let children = document.getElementById(grouping + "-dropdown").children;
+    let selectedList = [];
+    for (const child of children) {
+        if (child.id != grouping + "-all" && child.id != grouping + "-search") {
+
+            let checked = document.getElementById(child.id + "-check").classList;
+            if (!checked.contains("hide")) {
+                selectedList.push(child.id);
+
+            }
+        }
+    }
+    return selectedList;
+}
+
+// This function writes the text below the filter ("selected: AK,AZ,....")
+// This function takes in string grouping and list[str] selected
+// grouping is the group that's being filtered by, e.g. state
+// selected is a list of currently selected attributes for that grouping
+function writeSelectedText(grouping, selected) {
+    let text = document.getElementById(grouping + "-filter-text");
+
+    if (selected.length === filters[grouping].length) {
+        // write all
+        text.innerHTML = "Selected: All";
+    } else if (selected.length === 0) {
+        text.innerHTML = "Selected: None";
+    } else {
+        // write a list of selected, x chars max
+        let txt = "Selected: " + selected.join(", ");
+        text.innerHTML = txt.slice(0, 20) + "...";
+    }
+}
+
 
 // This function will run the necessary code for the selectAll
 // Will take in grouping as string (either Part, State, or rank)
@@ -246,6 +284,7 @@ function selectAll(grouping) {
                 el.classList.add(grouping + "-hide");
             }
         }
+        writeSelectedText(grouping, []); //Empty because none selected
 
     } else {
         for (let tagID of filters[grouping]) {
@@ -255,17 +294,16 @@ function selectAll(grouping) {
                 el.classList.remove(grouping + "-hide");
             }
         }
+        writeSelectedText(grouping, filters[grouping]); //All filters for that grouping because everything selected
     }
 
     // Finally toggle check on all box
     document.getElementById(grouping + '-all-check').classList.toggle("hide");
 
-
 }
 
 // This filter will be invoked when an item in the dropdown list is selected/deselected
 // function will toggle hide on the corresponding senators, the check mark
-// !NOTE: We will need some way of making sure when checking something that it's not unchecked in one of the other 
 function toggleSelection(grouping, item) {
     // Toggle the checkmark on the filter tab
     let checkbox = document.getElementById(item + "-check");
@@ -280,9 +318,15 @@ function toggleSelection(grouping, item) {
             el.classList.toggle(grouping + "-hide");
         }
     }
-
-
-
+    let selected = getSelectedFilters(grouping);
+    if (selected.length === filters[grouping].length) {
+        // Make all tick visible
+        document.getElementById(grouping + "-all-check").classList.remove("hide");
+    } else {
+        // make all tick invisible
+        document.getElementById(grouping + "-all-check").classList.add("hide");
+    }
+    writeSelectedText(grouping, selected);
 
 }
 
@@ -310,6 +354,5 @@ document.addEventListener("DOMContentLoaded", async () => {
     //make senator list
     senators = extractSenatorInfomation(data.objects);
     makeSenatorList(senators);
-
 
 });
