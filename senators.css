@@ -192,7 +192,12 @@ header h1 {
     width: 100%;
 }
 /* End Filter Box Styling */
-
+.party-hide,
+.state-hide,
+.gender-hide,
+.rank-hide {
+    display: none;
+}
 
 /* Start Senator List Styling */
 
