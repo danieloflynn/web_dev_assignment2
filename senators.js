@@ -262,8 +262,15 @@ function writeSelectedText(grouping, selected) {
         text.innerHTML = "Selected: None";
     } else {
         // write a list of selected, x chars max
-        let txt = "Selected: " + selected.join(", ");
-        text.innerHTML = txt.slice(0, 20) + "...";
+        let txt = selected.join(", ");
+        const maxlen = 16;
+        if (txt.length > maxlen) {
+
+            text.innerHTML = txt.slice(0, maxlen) + "...";
+        } else {
+            text.innerHTML = txt;
+
+        }
     }
 }
 
