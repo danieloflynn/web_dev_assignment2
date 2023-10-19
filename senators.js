@@ -94,16 +94,16 @@ function makePartyBoxes(partyObj) {
 }
 
 // making boxes for each senator for full list
-// pulls the following info from data variable :
+// pulls the following info from data letiable :
 // name, party, state, gender, rank, office, DOB, start date, twitter ID, youtube ID, website link
 
 function extractSenatorInfomation(senatorData) {
 //make sort by ranking & party 
 
-    var senatorInformationList = [];
+    let senatorInformationList = [];
 
     for (let senatorInformation of senatorData) {
-        var senator = {
+        let senator = {
             name: senatorInformation.person.name,
             party: senatorInformation.party,
             state: senatorInformation.state,
@@ -123,13 +123,13 @@ function extractSenatorInfomation(senatorData) {
 
 // function to make senator list
 function makeSenatorList(data) {
-    var senators = extractSenatorInfomation(data);
-    var senatorListEl = document.getElementById("senators")
+    let senators = extractSenatorInfomation(data);
+    let senatorListEl = document.getElementById("senators")
 
     for (let senator of senators) {
-        var senatorEl = document.createElement("div", { class: "senator-box" }); //<div class ="senator-box"></div>
+        let senatorEl = document.createElement("div", { class: "senator-box" }); //<div class ="senator-box"></div>
         Object.keys(senator).forEach(function (key) {
-            var fieldEl = document.createElement("div"); //<div></div>
+            let fieldEl = document.createElement("div"); //<div></div>
             fieldEl.innerText = senator[key]; //<div>Tara</div>
             senatorEl.appendChild(fieldEl); //<div class ="senator-box"><div>Tara</div></div>
         })
@@ -138,6 +138,40 @@ function makeSenatorList(data) {
 
 }
 // function to create senior senator list 
+// need to group by party 
+
+function extractSeniorSenators(seniorData){
+    let seniorSenatorList = [];
+
+    for (let seniorSenatorInfo of seniorData){
+        // filters the senators that have a leadership title 
+        if (seniorSenatorInfo.leadership_title) {
+            let seniorSenator = {
+                title: seniorSenatorInfo.leadership_title,
+                name: seniorSenatorInfo.person.name,
+                party: seniorSenatorInfo.party,
+            };
+            seniorSenatorList.push(seniorSenator);
+        }
+    }
+    return seniorSenatorList;
+}
+
+function makeSeniorList(data){
+    let seniorSenators = extractSeniorSenators(data);
+    let seniorSenatorListEl = document.getElementById("leadership");
+
+    for (let seniorSenator of seniorSenators){
+        let seniorSenatorEl = document.createElement("div");
+        seniorSenatorEl.className = 'seniorSenator-box';
+        Object.keys(seniorSenator).forEach(function (key){
+            let fieldEl = document.createElement("div");
+            fieldEl.innerText = seniorSenator[key];
+            seniorSenatorEl.appendChild(fieldEl);
+        })
+        seniorSenatorListEl.appendChild(seniorSenatorEl);
+    }
+}
 
 
 // Start Filter Creation/Manipulation Functions
@@ -259,6 +293,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     insertFilterOptions(filters);
     //make senator list
     makeSenatorList(data.objects);
+    // make senior senator list
+    makeSeniorList(data.objects);
 
 
 });
