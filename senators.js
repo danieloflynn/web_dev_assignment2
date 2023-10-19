@@ -3,10 +3,10 @@
 async function getData() {
     let json;
     try {
-    // try block //TODO might need to change the element where error message is displayed?
+        // try block 
         let data = await fetch("./senators.json");
         // if not successful:
-        if (data.ok){
+        if (data.ok) {
             json = await data.json(); //assign value don't declare, scoping was causing me heartfailure :) 
         } else if (data.status >= 400 && data.status < 500) {
             // Client-side error
@@ -98,7 +98,7 @@ function makePartyBoxes(partyObj) {
 // name, party, state, gender, rank, office, DOB, start date, twitter ID, youtube ID, website link
 
 function extractSenatorInfomation(senatorData) {
-//make sort by ranking & party 
+    //make sort by ranking & party 
 
     let senatorInformationList = [];
 
@@ -107,27 +107,46 @@ function extractSenatorInfomation(senatorData) {
             name: senatorInformation.person.name,
             party: senatorInformation.party,
             state: senatorInformation.state,
-            gender: senatorInformation.person.gender,
-            rank: senatorInformation.senator_rank,
+            gender: senatorInformation.person.gender_label,
+            rank: senatorInformation.senator_rank_label,
             office: senatorInformation.office,
             DOB: senatorInformation.person.birthday,
             startDate: senatorInformation.startdate,
             twitterID: senatorInformation.person.twitterid,
             youtubeID: senatorInformation.person.youtubeid,
             websiteLink: senatorInformation.website,
+            osid: senatorInformation.person.osid
         };
         senatorInformationList.push(senator)
     }
     return senatorInformationList;
 }
 
+// Search function for states
+// Adds "hide" class to any list items that don't match search
+function searchStates() {
+    let search = document.getElementById("state-search-bar").value.toUpperCase();
+    let el = document.getElementById("state-dropdown");
+    for (let option of el.children) {
+        let id = option.getAttribute('id');
+        if (id != "state-search" && id != "state-all" && (id.toUpperCase().indexOf(search) == -1)) {
+            document.getElementById(id).classList.add("hide");
+        } else {
+            document.getElementById(id).classList.remove("hide");
+        }
+    }
+
+}
+
+
+
 // function to make senator list
-function makeSenatorList(data) {
-    let senators = extractSenatorInfomation(data);
-    let senatorListEl = document.getElementById("senators")
+function makeSenatorList(senators) {
+    var senatorListEl = document.getElementById("senators")
 
     for (let senator of senators) {
-        let senatorEl = document.createElement("div", { class: "senator-box" }); //<div class ="senator-box"></div>
+        var senatorEl = document.createElement("div"); //<div class ="senator-box"></div>
+        senatorEl.setAttribute("id", senator.osid);
         Object.keys(senator).forEach(function (key) {
             let fieldEl = document.createElement("div"); //<div></div>
             fieldEl.innerText = senator[key]; //<div>Tara</div>
@@ -184,10 +203,10 @@ function makeSeniorList(data){
 function getFilterNames(data) {
 
     return {
-        "parties": new Set(data["objects"].map(x => x["party"])),
-        "states": new Set(data["objects"].map(x => x["state"])),
-        "gender": new Set(data["objects"].map(x => x["person"]["gender_label"])),
-        "rank": new Set(data["objects"].map(x => x["senator_rank_label"])),
+        "party": Array.from(new Set(data["objects"].map(x => x["party"]))).sort().reverse(),
+        "state": Array.from(new Set(data["objects"].map(x => x["state"]))).sort().reverse(),
+        "gender": Array.from(new Set(data["objects"].map(x => x["person"]["gender_label"]))).sort().reverse(),
+        "rank": Array.from(new Set(data["objects"].map(x => x["senator_rank_label"]))).sort().reverse(),
     };
 }
 
@@ -202,7 +221,8 @@ function insertFilterOptions(filters) {
         // create list item
         let el = document.createElement("li");
         el.setAttribute('id', name);
-        el.onclick = ()=> {toggleSelection(grouping, name)};
+        el.classList.add("filter-list");
+        el.onclick = () => { toggleSelection(grouping, name) };
         // create p tag for the text
         let p = document.createElement("p");
         p.innerHTML = name;
@@ -221,21 +241,18 @@ function insertFilterOptions(filters) {
     // Insert options
     // TODO: put the for loop into the makeFilterBox function
 
-    for (let party of filters["parties"]) {
+    for (let party of filters["party"]) {
         makeFilterBox(party, "party");
     }
 
-    let statelist = document.getElementById("state-all");
-    for (let state of filters["states"]) {
+    for (let state of filters["state"]) {
         makeFilterBox(state, "state");
     }
 
-    let genderlist = document.getElementById("gender-all");
     for (let gender of filters["gender"]) {
         makeFilterBox(gender, "gender");
     }
 
-    let ranklist = document.getElementById("rank-all");
     for (let rank of filters["rank"]) {
         makeFilterBox(rank, "rank");
     }
@@ -252,35 +269,117 @@ function toggleDropdown(tagID) {
     document.getElementById(tagID).classList.toggle("hide");
 }
 
+// This function checks what's selected in the filter
+// It takes in the filter grouping
+// Goes through all the html elements in the filter dropdown and checks if the checkmark is hidden or not
+function getSelectedFilters(grouping) {
+    let children = document.getElementById(grouping + "-dropdown").children;
+    let selectedList = [];
+    for (const child of children) {
+        if (child.id != grouping + "-all" && child.id != grouping + "-search") {
+
+            let checked = document.getElementById(child.id + "-check").classList;
+            if (!checked.contains("hide")) {
+                selectedList.push(child.id);
+
+            }
+        }
+    }
+    return selectedList;
+}
+
+// This function writes the text below the filter ("selected: AK,AZ,....")
+// This function takes in string grouping and list[str] selected
+// grouping is the group that's being filtered by, e.g. state
+// selected is a list of currently selected attributes for that grouping
+function writeSelectedText(grouping, selected) {
+    let text = document.getElementById(grouping + "-filter-text");
+
+    if (selected.length === filters[grouping].length) {
+        // write all
+        text.innerHTML = "Selected: All";
+    } else if (selected.length === 0) {
+        text.innerHTML = "Selected: None";
+    } else {
+        // write a list of selected, x chars max
+        let txt = "Selected: " + selected.join(", ");
+        text.innerHTML = txt.slice(0, 20) + "...";
+    }
+}
+
 
 // This function will run the necessary code for the selectAll
 // Will take in grouping as string (either Part, State, or rank)
 // Removes all of the filters for that grouping on all senators, unchecks all other boxes in that filter section
 function selectAll(grouping) {
+    // check if checkmark present for all box
+    let isChecked = !document.getElementById(grouping + '-all-check').classList.contains("hide");
+
+    if (isChecked) {
+        // uncheck everything
+        for (let tagID of filters[grouping]) {
+            document.getElementById(tagID + "-check").classList.add("hide");
+            for (let senator of senators) {
+                let el = document.getElementById(senator.osid);
+                el.classList.add(grouping + "-hide");
+            }
+        }
+        writeSelectedText(grouping, []); //Empty because none selected
+
+    } else {
+        for (let tagID of filters[grouping]) {
+            document.getElementById(tagID + "-check").classList.remove("hide");
+            for (let senator of senators) {
+                let el = document.getElementById(senator.osid);
+                el.classList.remove(grouping + "-hide");
+            }
+        }
+        writeSelectedText(grouping, filters[grouping]); //All filters for that grouping because everything selected
+    }
+
+    // Finally toggle check on all box
+    document.getElementById(grouping + '-all-check').classList.toggle("hide");
 
 }
 
 // This filter will be invoked when an item in the dropdown list is selected/deselected
 // function will toggle hide on the corresponding senators, the check mark
-// !NOTE: We will need some way of making sure when checking something that it's not unchecked in one of the other 
 function toggleSelection(grouping, item) {
-    let checkbox = document.getElementById(item+"-check");
+    // Toggle the checkmark on the filter tab
+    let checkbox = document.getElementById(item + "-check");
     checkbox.classList.toggle("hide");
+    // hide/unhide the senators in the senator list
+    // Hiding is done by adding a "hide" class to the object
+    // Each filter (state, gender, rank etc.) has its own hide class, 
+    // This way we can remove filters without seeing what other filters are selected
+    for (let senator of senators) {
+        if (senator[grouping] === item) {
+            let el = document.getElementById(senator.osid);
+            el.classList.toggle(grouping + "-hide");
+        }
+    }
+    let selected = getSelectedFilters(grouping);
+    if (selected.length === filters[grouping].length) {
+        // Make all tick visible
+        document.getElementById(grouping + "-all-check").classList.remove("hide");
+    } else {
+        // make all tick invisible
+        document.getElementById(grouping + "-all-check").classList.add("hide");
+    }
+    writeSelectedText(grouping, selected);
+
 }
 
 
 // End Filter Manipulation Functions
-
-
-
+// Initialize filters and senators here so they are inside the scope of all the above functions
+let filters;
+let senators;
 // Add event listener allows HTML to be loaded first before JS starts. Best practice
 document.addEventListener("DOMContentLoaded", async () => {
 
-
-
     // Pull the data from JSON file
     const data = await getData();
-    console.log(data)
     // object with party as key and count as value
     const partyObj = countSenatorsByParty(data);
     // This function will create the bar chart
@@ -288,13 +387,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Make the boxes with the count per party
     makePartyBoxes(partyObj);
     // filter object with state, party, gender, rank, for insertion into filter boxes
-    const filters = getFilterNames(data);
+    filters = getFilterNames(data);
     // Insert filter options
     insertFilterOptions(filters);
-    //make senator list
-    makeSenatorList(data.objects);
-    // make senior senator list
-    makeSeniorList(data.objects);
 
+    //make senator list
+    senators = extractSenatorInfomation(data.objects);
+    makeSenatorList(senators);
 
 });

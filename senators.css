@@ -1,5 +1,5 @@
 /* Start global styles */
-*{
+* {
     font-family: sans-serif;
 }
 
@@ -28,7 +28,7 @@ header h1 {
 
 }
 
-.bar{
+.bar {
     border: 2px solid black;
 }
 
@@ -142,6 +142,7 @@ header h1 {
 
 .filter-text p {
     margin: 0;
+    text-align: left;
 }
 
 .filter-arrow {
@@ -154,17 +155,13 @@ header h1 {
 }
 
 .dropdown {
-    padding:0;
+    padding: 0;
     margin: 0 5px;
     border: 2px solid black;
     margin-bottom: 5px;
 }
 
-#party-dropdown {
-    /* display: block; */
-}
-
-.dropdown li {
+.filter-list {
     list-style: none;
     display: flex;
     justify-content: space-between;
@@ -188,8 +185,17 @@ header h1 {
     display: none;
 }
 
-/* End Filter Box Styling */
+#state-search input {
+    width: 100%;
+}
 
+/* End Filter Box Styling */
+.party-hide,
+.state-hide,
+.gender-hide,
+.rank-hide {
+    display: none;
+}
 
 /* Start Senator List Styling */
 
