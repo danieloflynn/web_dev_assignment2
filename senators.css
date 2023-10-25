@@ -198,5 +198,16 @@ header h1 {
 }
 
 /* Start Senator List Styling */
-
+#senators{
+    background-color: aqua;
+}
+#senator-list{
+    text-align: center;
+    background-color: blueviolet;
+}
+.senator-box{
+    padding: 10px;
+    background-color: antiquewhite;
+    margin: 10px;
+}
 /* End Senator List Styling */

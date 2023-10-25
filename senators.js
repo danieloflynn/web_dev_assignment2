@@ -147,6 +147,7 @@ function makeSenatorList(senators) {
     for (let senator of senators) {
         var senatorEl = document.createElement("div"); //<div class ="senator-box"></div>
         senatorEl.setAttribute("id", senator.osid);
+        senatorEl.setAttribute("class", "senator-box");
         Object.keys(senator).forEach(function (key) {
             let fieldEl = document.createElement("div"); //<div></div>
             fieldEl.innerText = senator[key]; //<div>Tara</div>
@@ -161,9 +162,10 @@ function makeSenatorList(senators) {
 
 function extractSeniorSenators(seniorData){
     let seniorSenatorList = [];
-
+    console.log(seniorData)
     for (let seniorSenatorInfo of seniorData){
         // filters the senators that have a leadership title 
+        console.log(seniorSenatorInfo)
         if (seniorSenatorInfo.leadership_title) {
             let seniorSenator = {
                 title: seniorSenatorInfo.leadership_title,
@@ -180,7 +182,7 @@ function makeSeniorList(data){
     let seniorSenators = extractSeniorSenators(data);
     let seniorSenatorListEl = document.getElementById("leadership");
 
-    for (let seniorSenator of seniorSenators){
+    for (const seniorSenator of seniorSenators){
         let seniorSenatorEl = document.createElement("div");
         seniorSenatorEl.className = 'seniorSenator-box';
         Object.keys(seniorSenator).forEach(function (key){
@@ -260,7 +262,8 @@ function insertFilterOptions(filters) {
 
 }
 
-
+// function to toggle the senator list 
+// function
 
 
 // This function toggles the dropdowns for filter boxes
@@ -394,5 +397,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     //make senator list
     senators = extractSenatorInfomation(data.objects);
     makeSenatorList(senators);
+
+    //make senior senator list
+    // seniorSenator = extractSeniorSenators(data.objects);
+    makeSeniorList(data.objects);
 
 });
