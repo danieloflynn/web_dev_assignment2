@@ -169,7 +169,7 @@ function extractSeniorSenators(seniorData){
         if (seniorSenatorInfo.leadership_title) {
             let seniorSenator = {
                 title: seniorSenatorInfo.leadership_title,
-                name: seniorSenatorInfo.person.name,
+                name: seniorSenatorInfo.person.name.slice(0,-6),
                 party: seniorSenatorInfo.party,
             };
             seniorSenatorList.push(seniorSenator);
