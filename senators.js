@@ -139,7 +139,6 @@ function searchStates() {
 }
 
 
-
 // function to make senator list
 function makeSenatorList(senators) {
     var senatorListEl = document.getElementById("senators")
@@ -148,9 +147,11 @@ function makeSenatorList(senators) {
         var senatorEl = document.createElement("div"); //<div class ="senator-box"></div>
         senatorEl.setAttribute("id", senator.osid);
         senatorEl.setAttribute("class", "senator-box");
+        senatorEl.setAttribute("onclick", "toggleExtraInfo(this)"); //on click for the extra info dropdown 
         
         var extraInfoEl = document.createElement("div");  //creating extra_info div for the drop down section
         extraInfoEl.setAttribute("class", "extra_info"); 
+        extraInfoEl.style.display ="none"; //hide div first
        
         Object.keys(senator).forEach(function (key) {
             let fieldEl = document.createElement("div"); //<div></div>
@@ -208,12 +209,16 @@ function makeSeniorList(data){
     }
 }
 
-// Start Senator List Toggle
-function toggleDropdown(){
-
+//  Senator List Toggle
+function toggleExtraInfo(senatorEl) {
+    var extraInfoEl = senatorEl.getElementsByClassName("extra_info")[0];
+    if (extraInfoEl.style.display === "none") {
+        extraInfoEl.style.display = "block";
+    } else {
+        extraInfoEl.style.display = "none";
+    }
 }
 
-// End Senator List Toggle
 
 
 // Start Filter Creation/Manipulation Functions
