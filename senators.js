@@ -8,16 +8,23 @@ async function getData() {
         // if not successful:
         if (data.ok) {
             json = await data.json(); //assign value don't declare, scoping was causing me heartfailure :) 
+        } else if (data.status >= 400 && data.status < 500) {
+            // Client-side error
+            document.getElementById("div").innerText = "Client-side error: HTTP status code " + data.status;
+        } else if (data.status >= 500) {
+            // Server-side error
+            document.getElementById("div").innerText = "Server-side error: HTTP status code " + data.status;
+        } else {
+            // Unknown error
+            document.getElementById("div").innerText = "Unknown error: HTTP status code " + data.status;
         }
     }
-    catch (error) {
-        console.log(error)
-        // document.getElementById("").innerText = error;
+    catch(error){
+        document.getElementById("div").innerText = "Error: " + error.message;
     }
 
     return json;
-    // TODO use else blocks to check if HTTP status code is in range 400-499(client) or 500-599(server side) or outside ranges(unknown)
-
+ 
 
 }
 
@@ -87,16 +94,16 @@ function makePartyBoxes(partyObj) {
 }
 
 // making boxes for each senator for full list
-// pulls the following info from data variable :
+// pulls the following info from data letiable :
 // name, party, state, gender, rank, office, DOB, start date, twitter ID, youtube ID, website link
 
 function extractSenatorInfomation(senatorData) {
     //make sort by ranking & party 
 
-    var senatorInformationList = [];
+    let senatorInformationList = [];
 
     for (let senatorInformation of senatorData) {
-        var senator = {
+        let senator = {
             name: senatorInformation.person.name,
             party: senatorInformation.party,
             state: senatorInformation.state,
@@ -140,9 +147,9 @@ function makeSenatorList(senators) {
     for (let senator of senators) {
         var senatorEl = document.createElement("div"); //<div class ="senator-box"></div>
         senatorEl.setAttribute("id", senator.osid);
+        senatorEl.setAttribute("class", "senator-box");
         Object.keys(senator).forEach(function (key) {
-            var fieldEl = document.createElement("div"); //<div></div>
-
+            let fieldEl = document.createElement("div"); //<div></div>
             fieldEl.innerText = senator[key]; //<div>Tara</div>
             senatorEl.appendChild(fieldEl); //<div class ="senator-box"><div>Tara</div></div>
         })
@@ -151,6 +158,41 @@ function makeSenatorList(senators) {
 
 }
 // function to create senior senator list 
+// need to group by party 
+
+function extractSeniorSenators(seniorData){
+    let seniorSenatorList = [];
+    console.log(seniorData)
+    for (let seniorSenatorInfo of seniorData){
+        // filters the senators that have a leadership title 
+        console.log(seniorSenatorInfo)
+        if (seniorSenatorInfo.leadership_title) {
+            let seniorSenator = {
+                title: seniorSenatorInfo.leadership_title,
+                name: seniorSenatorInfo.person.name.slice(0,-6),
+                party: seniorSenatorInfo.party,
+            };
+            seniorSenatorList.push(seniorSenator);
+        }
+    }
+    return seniorSenatorList;
+}
+
+function makeSeniorList(data){
+    let seniorSenators = extractSeniorSenators(data);
+    let seniorSenatorListEl = document.getElementById("leadership");
+
+    for (const seniorSenator of seniorSenators){
+        let seniorSenatorEl = document.createElement("div");
+        seniorSenatorEl.className = 'seniorSenator-box';
+        Object.keys(seniorSenator).forEach(function (key){
+            let fieldEl = document.createElement("div");
+            fieldEl.innerText = seniorSenator[key];
+            seniorSenatorEl.appendChild(fieldEl);
+        })
+        seniorSenatorListEl.appendChild(seniorSenatorEl);
+    }
+}
 
 
 // Start Filter Creation/Manipulation Functions
@@ -220,7 +262,8 @@ function insertFilterOptions(filters) {
 
 }
 
-
+// function to toggle the senator list 
+// function
 
 
 // This function toggles the dropdowns for filter boxes
@@ -354,5 +397,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     //make senator list
     senators = extractSenatorInfomation(data.objects);
     makeSenatorList(senators);
+
+    //make senior senator list
+    // seniorSenator = extractSeniorSenators(data.objects);
+    makeSeniorList(data.objects);
 
 });

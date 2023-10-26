@@ -197,6 +197,42 @@ header h1 {
     display: none;
 }
 
-/* Start Senator List Styling */
+/* Start Senior Senator List Styling */
+#leadership{
+    /* background-color: aqua; */
+    display: flex;
+    flex-direction: column;
+    border-style: solid;
+}
+.seniorSenator-box{
+    /* background-color: violet; */
+    margin: 20px;
+    display: flex;
+    border-style: solid;
+    text-align: center;
+    
+}
 
+
+/* End Senior Senator List Styling */
+
+/* Start Senator List Styling */
+#senators{
+    /* background-color: aqua; */
+    width: 750px;
+    border-style: solid;
+    /* display: flex;
+    align-items: center; */
+}
+#senator-list{
+    text-align: center;
+    /* background-color: blueviolet; */
+    border-style: solid;
+}
+.senator-box{
+    padding: 10px;
+    /* background-color: antiquewhite; */
+    margin: 10px;
+    border-style: solid;
+}
 /* End Senator List Styling */
