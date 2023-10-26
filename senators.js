@@ -148,18 +148,32 @@ function makeSenatorList(senators) {
         var senatorEl = document.createElement("div"); //<div class ="senator-box"></div>
         senatorEl.setAttribute("id", senator.osid);
         senatorEl.setAttribute("class", "senator-box");
+        
+        var extraInfoEl = document.createElement("div");  //creating extra_info div for the drop down section
+        extraInfoEl.setAttribute("class", "extra_info"); 
+       
         Object.keys(senator).forEach(function (key) {
             let fieldEl = document.createElement("div"); //<div></div>
+
             fieldEl.innerText = senator[key]; //<div>Tara</div>
-            senatorEl.appendChild(fieldEl); //<div class ="senator-box"><div>Tara</div></div>
+            fieldEl.setAttribute("class", key); //adds class to the inner div
+            
+            // if info not key it is added to extra_info
+            if (key !== "name" && key !== "party" && key !== "state") {
+                extraInfoEl.appendChild(fieldEl); 
+                senatorEl.appendChild(extraInfoEl);
+            }
+            else{
+                senatorEl.appendChild(fieldEl); //<div class ="senator-box"><div>Tara</div></div>
+            }
         })
         senatorListEl.appendChild(senatorEl)
     }
 
 }
+
 // function to create senior senator list 
 // need to group by party 
-
 function extractSeniorSenators(seniorData){
     let seniorSenatorList = [];
     console.log(seniorData)
@@ -194,6 +208,13 @@ function makeSeniorList(data){
     }
 }
 
+// Start Senator List Toggle
+function toggleDropdown(){
+
+}
+
+// End Senator List Toggle
+
 
 // Start Filter Creation/Manipulation Functions
 // This 
@@ -202,7 +223,7 @@ function makeSeniorList(data){
 // get all the filter names
 // Returns a set object with all party names
 // TODO: Change this to take the set from senatorList instead of the raw data
-function getFilterNames(data) {
+function getFilterNames(data){
 
     return {
         "party": Array.from(new Set(data["objects"].map(x => x["party"]))).sort().reverse(),
@@ -261,9 +282,6 @@ function insertFilterOptions(filters) {
 
 
 }
-
-// function to toggle the senator list 
-// function
 
 
 // This function toggles the dropdowns for filter boxes
