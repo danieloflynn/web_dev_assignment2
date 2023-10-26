@@ -177,7 +177,7 @@ function makeSenatorList(senators) {
 // need to group by party 
 function extractSeniorSenators(seniorData){
     let seniorSenatorList = [];
-    console.log(seniorData)
+    // console.log(seniorData)
     for (let seniorSenatorInfo of seniorData){
         // filters the senators that have a leadership title 
         console.log(seniorSenatorInfo)
@@ -190,6 +190,9 @@ function extractSeniorSenators(seniorData){
             seniorSenatorList.push(seniorSenator);
         }
     }
+     // Sort the list by party
+    seniorSenatorList.sort((a, b) => a.party.toLowerCase() > b.party.toLowerCase() ? 1 : -1);
+    
     return seniorSenatorList;
 }
 
