@@ -393,12 +393,40 @@ function toggleSelection(grouping, item) {
     writeSelectedText(grouping, selected);
 
 }
-
-
 // End Filter Manipulation Functions
-// Initialize filters and senators here so they are inside the scope of all the above functions
+
+// Start title page scroll functions
+
+// Gets scroll direction
+// Returns "Down" if scroll direction is down, "Up" if scroll direction is up
+function getScrollDirection(scrollY) {
+    if (scrollY > lastScrollY) {
+        return "Down"
+    } else {
+        return "Up"
+    }
+}
+
+
+// Moves the capitol logo up and to the side when scrolling down
+// Takes in Y scroll position as argument, does not return
+function shrinkLogo(scrollY) {
+    // get capitol logo
+    let logo = document.getElementById("capitol");
+    // If the scrollY is 0, we are at the top of the page
+    if (scrollY === 0) {
+
+    }
+}
+
+
+
+// End title page scroll functions
+
+// Initialize filters and senat here so they are inside the scope of all the above functions
 let filters;
 let senators;
+
 // Add event listener allows HTML to be loaded first before JS starts. Best practice
 document.addEventListener("DOMContentLoaded", async () => {
 
@@ -424,3 +452,27 @@ document.addEventListener("DOMContentLoaded", async () => {
     makeSeniorList(data.objects);
 
 });
+
+// Set the scrollY pos to 0 for use in the scroll event listener
+let lastScrollY = 0;
+let scrolling = false;
+
+document.addEventListener("scroll", (event) => {
+    scrolling = true;
+});
+
+setInterval(() => {
+    if (scrolling === true) {
+        scrolling = false;
+        // TODO: Move the capitol out of the way
+        let scrollY = window.scrollY;
+        let direction = getScrollDirection(scrollY);
+        console.log(direction);
+        shrinkLogo(scrollY);
+        // TODO: Move the logo up to the top
+
+        // set last scrollY
+        lastScrollY = scrollY;
+
+    }
+}, 1000)

@@ -10,7 +10,7 @@ body {
 
 header h1 {
     text-align: center;
-    color: white;
+    color: black;
 }
 
 
@@ -26,7 +26,7 @@ header h1 {
     margin: 0;
     height: 100vh;
     width: 100vw;
-    background-color: black;
+    background-color: white;
     /* display: flex;
     flex-direction: column;
     justify-items: flex-start;
@@ -40,7 +40,7 @@ header {
     left: calc(50vw - 200px)
 }
 
-#senate {
+#capitol {
     /* justify-self: center; */
     position: absolute;
     height: 400px;
