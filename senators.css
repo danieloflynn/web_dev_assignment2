@@ -3,14 +3,54 @@
     font-family: sans-serif;
 }
 
+body {
+    margin: 0;
+    padding: 0;
+}
+
 header h1 {
     text-align: center;
+    color: white;
 }
 
 
 
 /* End global styles */
 
+/* Start title page styling */
+#title-page {
+    /* position: absolute; */
+    /* left: 0;
+    top: 0; */
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: black;
+    /* display: flex;
+    flex-direction: column;
+    justify-items: flex-start;
+    align-items: center; */
+}
+
+header {
+    width: 400px;
+    position: absolute;
+    bottom: 50px;
+    left: calc(50vw - 200px)
+}
+
+#senate {
+    /* justify-self: center; */
+    position: absolute;
+    height: 400px;
+    width: 400px;
+    top: calc(50vh - 200px);
+    left: calc(50vw - 200px);
+}
+
+
+/* End title page styling */
 /* Start party count styling */
 
 #count-title {
