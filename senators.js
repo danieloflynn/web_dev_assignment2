@@ -19,12 +19,12 @@ async function getData() {
             document.getElementById("div").innerText = "Unknown error: HTTP status code " + data.status;
         }
     }
-    catch(error){
+    catch (error) {
         document.getElementById("div").innerText = "Error: " + error.message;
     }
 
     return json;
- 
+
 
 }
 
@@ -148,23 +148,23 @@ function makeSenatorList(senators) {
         senatorEl.setAttribute("id", senator.osid);
         senatorEl.setAttribute("class", "senator-box");
         senatorEl.setAttribute("onclick", "toggleExtraInfo(this)"); //on click for the extra info dropdown 
-        
+
         var extraInfoEl = document.createElement("div");  //creating extra_info div for the drop down section
-        extraInfoEl.setAttribute("class", "extra_info"); 
-        extraInfoEl.style.display ="none"; //hide div first
-       
+        extraInfoEl.setAttribute("class", "extra_info");
+        extraInfoEl.style.display = "none"; //hide div first
+
         Object.keys(senator).forEach(function (key) {
             let fieldEl = document.createElement("div"); //<div></div>
 
             fieldEl.innerText = senator[key]; //<div>Tara</div>
             fieldEl.setAttribute("class", key); //adds class to the inner div
-            
+
             // if info not key it is added to extra_info
             if (key !== "name" && key !== "party" && key !== "state") {
-                extraInfoEl.appendChild(fieldEl); 
+                extraInfoEl.appendChild(fieldEl);
                 senatorEl.appendChild(extraInfoEl);
             }
-            else{
+            else {
                 senatorEl.appendChild(fieldEl); //<div class ="senator-box"><div>Tara</div></div>
             }
         })
@@ -175,16 +175,14 @@ function makeSenatorList(senators) {
 
 // function to create senior senator list 
 // need to group by party 
-function extractSeniorSenators(seniorData){
+function extractSeniorSenators(seniorData) {
     let seniorSenatorList = [];
-    console.log(seniorData)
-    for (let seniorSenatorInfo of seniorData){
+    for (let seniorSenatorInfo of seniorData) {
         // filters the senators that have a leadership title 
-        console.log(seniorSenatorInfo)
         if (seniorSenatorInfo.leadership_title) {
             let seniorSenator = {
                 title: seniorSenatorInfo.leadership_title,
-                name: seniorSenatorInfo.person.name.slice(0,-6),
+                name: seniorSenatorInfo.person.name.slice(0, -6),
                 party: seniorSenatorInfo.party,
             };
             seniorSenatorList.push(seniorSenator);
@@ -193,14 +191,14 @@ function extractSeniorSenators(seniorData){
     return seniorSenatorList;
 }
 
-function makeSeniorList(data){
+function makeSeniorList(data) {
     let seniorSenators = extractSeniorSenators(data);
     let seniorSenatorListEl = document.getElementById("leadership");
 
-    for (const seniorSenator of seniorSenators){
+    for (const seniorSenator of seniorSenators) {
         let seniorSenatorEl = document.createElement("div");
         seniorSenatorEl.className = 'seniorSenator-box';
-        Object.keys(seniorSenator).forEach(function (key){
+        Object.keys(seniorSenator).forEach(function (key) {
             let fieldEl = document.createElement("div");
             fieldEl.innerText = seniorSenator[key];
             seniorSenatorEl.appendChild(fieldEl);
@@ -228,7 +226,7 @@ function toggleExtraInfo(senatorEl) {
 // get all the filter names
 // Returns a set object with all party names
 // TODO: Change this to take the set from senatorList instead of the raw data
-function getFilterNames(data){
+function getFilterNames(data) {
 
     return {
         "party": Array.from(new Set(data["objects"].map(x => x["party"]))).sort().reverse(),

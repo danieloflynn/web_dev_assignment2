@@ -125,6 +125,7 @@ header h1 {
 
 .filter-box:hover {
     background-color: lightgray;
+    cursor: pointer;
 }
 
 .filter-text {
@@ -198,41 +199,51 @@ header h1 {
 }
 
 /* Start Senior Senator List Styling */
-#leadership{
+#leadership {
     /* background-color: aqua; */
     display: flex;
     flex-direction: column;
     border-style: solid;
 }
-.seniorSenator-box{
+
+.seniorSenator-box {
     /* background-color: violet; */
-    margin: 20px;
+    margin: 5px;
+    padding: 5px;
     display: flex;
     border-style: solid;
     text-align: center;
-    
+
 }
 
 
 /* End Senior Senator List Styling */
 
 /* Start Senator List Styling */
-#senators{
+#senators {
     /* background-color: aqua; */
     width: 750px;
     border-style: solid;
     /* display: flex;
     align-items: center; */
 }
-#senator-list{
+
+#senator-list {
     text-align: center;
     /* background-color: blueviolet; */
     border-style: solid;
 }
-.senator-box{
+
+.senator-box {
     padding: 10px;
     /* background-color: antiquewhite; */
     margin: 10px;
     border-style: solid;
 }
+
+.senator-box:hover {
+    background-color: lightgray;
+    cursor: pointer;
+}
+
 /* End Senator List Styling */
