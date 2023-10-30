@@ -192,7 +192,38 @@ function makeSenatorList(senators) {
 // Function to get senator stats
 // Returns dictionary of senator stats
 function getSenatorStats(senators) {
+    let avgAge = 0; //Average age
+    let percentFemale = 0; //percent of senators that are women
+    let names = {} //Names and how often they occur
 
+    for (let key in senators) {
+        avgAge += senators[key].age;
+        if (senators[key].gender === "Female") {
+            percentFemale += 1;
+        }
+        if (senators[key].firstname in names) {
+            names[senators[key].firstname] += 1;
+        } else {
+            names[senators[key].firstname] = 1;
+        }
+    }
+
+    avgAge /= senators.length;
+    percentFemale /= senators.length / 100;
+
+    let name = "";
+    let count = 0;
+
+    for (let key in names) {
+        if (names[key] > count) {
+            name = key;
+            count = names[key];
+        }
+    }
+
+    console.log(name);
+    console.log(percentFemale);
+    console.log(avgAge);
 }
 
 // function to create senior senator list 
@@ -512,3 +543,10 @@ document.addEventListener("scroll", (event) => {
 
 });
 
+let options = {
+    root: document.getElementById("stats2"),
+    rootMargin: "0px",
+    threshold: 0.5,
+};
+
+let observer = new IntersectionObserver(callback, options);
