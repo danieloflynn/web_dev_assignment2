@@ -104,7 +104,7 @@ function extractSenatorInfomation(senatorData) {
 
     for (let senatorInformation of senatorData) {
         let senator = {
-            name: senatorInformation.person.name.slice(0,-6),
+            name: senatorInformation.person.name.slice(4,-6), //slice removes Sen. prefix and party/state info from end
             party: senatorInformation.party,
             state: senatorInformation.state,
             gender: senatorInformation.person.gender_label,
@@ -160,7 +160,6 @@ function makeSenatorList(senators) {
             // fieldEl.innerText = senator[key]; //<div>Tara</div>
             
             //creating website links
-            //need to open in new tab
             if (key === "websiteLink") {
                 let linkEl = document.createElement('a');
                 linkEl.setAttribute('href', senator[key]);
@@ -198,7 +197,7 @@ function extractSeniorSenators(seniorData){
         if (seniorSenatorInfo.leadership_title) {
             let seniorSenator = {
                 title: seniorSenatorInfo.leadership_title,
-                name: seniorSenatorInfo.person.name.slice(0,-6),
+                name: seniorSenatorInfo.person.name.slice(4,-6), //slice removes Sen. prefix and party/state info from end
                 party: seniorSenatorInfo.party,
             };
             seniorSenatorList.push(seniorSenator);
@@ -217,11 +216,19 @@ function makeSeniorList(data){
     for (const seniorSenator of seniorSenators){
         let seniorSenatorEl = document.createElement("div");
         seniorSenatorEl.className = 'seniorSenator-box';
-        Object.keys(seniorSenator).forEach(function (key){
-            let fieldEl = document.createElement("div");
-            fieldEl.innerText = seniorSenator[key];
-            seniorSenatorEl.appendChild(fieldEl);
-        })
+
+        let titleEl = document.createElement("div");
+        titleEl.innerText =`${seniorSenator.title}:`;
+        seniorSenatorEl.appendChild(titleEl);
+
+        let nameEl = document.createElement("div");
+        nameEl.innerText =` ${seniorSenator.name} `; //whitespace not currently working here  
+        seniorSenatorEl.appendChild(nameEl);
+
+        let partyEl = document.createElement("div");
+        partyEl.innerText =` (${seniorSenator.party})`;
+        seniorSenatorEl.appendChild(partyEl);
+      
         seniorSenatorListEl.appendChild(seniorSenatorEl);
     }
 }
