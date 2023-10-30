@@ -53,45 +53,45 @@ function makeBarChart(partyObj) {
 
 
 
-    // loop that creates boxes for each party and sizes/colours them accordingly
-    for (key in partyObj) {
+    // loop that creates boxes for each party
+    // 
+    let delay = 1000;
+    for (let key in partyObj) {
+        let c = document.createElement("div")
+        c.setAttribute("id", key + "-party");
+        c.classList.add("bar-container")
         let el = document.createElement("div");
         el.classList.add("bar");
         el.classList.add(key);
-        el.setAttribute("style", "width: " + partyObj[key] * 100 / totalSenators.toString() + "vw")
-        document.getElementById("bar-chart").appendChild(el)
+        el.setAttribute("style", "width: 0");
+        document.getElementById("bar-chart").appendChild(c).appendChild(el);
+        function setWidth() {
+            el.setAttribute("style", "width: " + partyObj[key] * 100 / totalSenators.toString() + "vw");
+        }
+        setTimeout(setWidth, delay);
 
-    }
-
-}
-
-// Make boxes for the count of senators by party
-// Takes object with parties as keys and number of senators as value
-function makePartyBoxes(partyObj) {
-
-    for (let key in partyObj) {
 
         // Make the count box
         let cb = document.createElement("div");
         cb.classList.add("count");
-        cb.setAttribute("id", key + "-party");
 
         // Add the count number
         let cn = document.createElement("h1");
         cn.classList.add("count-number");
-        cn.innerHTML = partyObj[key];
+        cn.innerHTML = partyObj[key] + " " + key;
 
 
-        // Add the party name
-        let cp = document.createElement("h2");
-        cp.classList.add("count-party");
-        cp.innerHTML = key;
+
 
         // Add the count box to the count box container, insert the count number into count box, add party after count box
-        document.getElementById("count-boxes").appendChild(cb).appendChild(cn).after(cp);
-
+        c.appendChild(cb).appendChild(cn);
+        delay += 1000
     }
+
+
+
 }
+
 
 // making boxes for each senator for full list
 // pulls the following info from data letiable :
@@ -413,6 +413,7 @@ function getScrollDirection(scrollY) {
 // Initialize filters and senat here so they are inside the scope of all the above functions
 let filters;
 let senators;
+let partyObj
 
 // Add event listener allows HTML to be loaded first before JS starts. Best practice
 document.addEventListener("DOMContentLoaded", async () => {
@@ -420,11 +421,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Pull the data from JSON file
     const data = await getData();
     // object with party as key and count as value
-    const partyObj = countSenatorsByParty(data);
-    // This function will create the bar chart
-    makeBarChart(partyObj);
-    // Make the boxes with the count per party
-    makePartyBoxes(partyObj);
+    partyObj = countSenatorsByParty(data);
     // filter object with state, party, gender, rank, for insertion into filter boxes
     filters = getFilterNames(data);
     // Insert filter options
@@ -447,13 +444,15 @@ let titlePage = document.getElementById("title-page");
 let titleHeight = titlePage.scrollHeight;
 let capitol = document.getElementById("capitol");
 let title = document.getElementById("title");
-
+let barChartCreated = false;
 
 // Scroll event listener
 document.addEventListener("scroll", (event) => {
     let scrollY = window.scrollY;
     // First scroll, move the title up and make it sticky
     if (scrollY < titleHeight / 4) {
+
+        // Move the title up and logo to the side
         titlePage.style.height = "15vh";
         titlePage.style.position = "sticky";
         titlePage.style.top = "0";
@@ -462,6 +461,13 @@ document.addEventListener("scroll", (event) => {
         capitol.style.height = "100px";
         capitol.style.width = "100px";
         title.style.top = "5vh";
+
+        if (!barChartCreated) {
+            // This function will create the bar chart
+            makeBarChart(partyObj);
+            barChartCreated = true;
+        }
+
 
 
     }
