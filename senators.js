@@ -104,7 +104,7 @@ function extractSenatorInfomation(senatorData) {
 
     for (let senatorInformation of senatorData) {
         let senator = {
-            name: senatorInformation.person.name,
+            name: senatorInformation.person.name.slice(0,-6),
             party: senatorInformation.party,
             state: senatorInformation.state,
             gender: senatorInformation.person.gender_label,
@@ -117,6 +117,7 @@ function extractSenatorInfomation(senatorData) {
             websiteLink: senatorInformation.website,
             osid: senatorInformation.person.osid
         };
+
         senatorInformationList.push(senator)
     }
     return senatorInformationList;
@@ -156,9 +157,22 @@ function makeSenatorList(senators) {
         Object.keys(senator).forEach(function (key) {
             let fieldEl = document.createElement("div"); //<div></div>
 
-            fieldEl.innerText = senator[key]; //<div>Tara</div>
-            fieldEl.setAttribute("class", key); //adds class to the inner div
+            // fieldEl.innerText = senator[key]; //<div>Tara</div>
             
+            //creating website links
+            //need to open in new tab
+            if (key === "websiteLink") {
+                let linkEl = document.createElement('a');
+                linkEl.setAttribute('href', senator[key]);
+                linkEl.setAttribute('target', '_blank') 
+                linkEl.textContent = 'Visit Website'; 
+                fieldEl.appendChild(linkEl);
+            } else {
+                fieldEl.innerText = senator[key];
+            }
+            
+            fieldEl.setAttribute("class", key); //adds class to the inner div
+
             // if info not key it is added to extra_info
             if (key !== "name" && key !== "party" && key !== "state") {
                 extraInfoEl.appendChild(fieldEl); 
@@ -177,7 +191,7 @@ function makeSenatorList(senators) {
 // need to group by party 
 function extractSeniorSenators(seniorData){
     let seniorSenatorList = [];
-    console.log(seniorData)
+    // console.log(seniorData)
     for (let seniorSenatorInfo of seniorData){
         // filters the senators that have a leadership title 
         console.log(seniorSenatorInfo)
@@ -190,6 +204,9 @@ function extractSeniorSenators(seniorData){
             seniorSenatorList.push(seniorSenator);
         }
     }
+     // Sort the list by party
+    seniorSenatorList.sort((a, b) => a.party.toLowerCase() > b.party.toLowerCase() ? 1 : -1);
+
     return seniorSenatorList;
 }
 
