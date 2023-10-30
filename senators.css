@@ -63,7 +63,7 @@ header h1 {
 /* End title page styling */
 /* Start stats page styling */
 #stats1 {
-    background-color: grey;
+    background-color: white;
     height: 90vh;
     width: 100vw;
 }
@@ -75,13 +75,14 @@ header h1 {
 
 
 #stats2 {
-    background-color: grey;
-    height: 90vh;
+    background-color: white;
+    /* height: 90vh; */
     width: 100vw;
 }
 
 #stat-box-container {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-evenly;
     width: 100vw;
 }

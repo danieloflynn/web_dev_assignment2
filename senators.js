@@ -25,7 +25,6 @@ async function getData() {
 
     return json;
 
-
 }
 
 // count senators by party
@@ -87,9 +86,6 @@ function makeBarChart(partyObj) {
         c.appendChild(cb).appendChild(cn);
         delay += 1500
     }
-
-
-
 }
 
 
@@ -192,9 +188,11 @@ function makeSenatorList(senators) {
 // Function to get senator stats
 // Returns dictionary of senator stats
 function getSenatorStats(senators) {
+    console.log(senators);
     let avgAge = 0; //Average age
     let percentFemale = 0; //percent of senators that are women
     let names = {} //Names and how often they occur
+    let hasTwitter = 0; //percent of senators that have twitter
 
     for (let key in senators) {
         avgAge += +senators[key].age;
@@ -206,10 +204,14 @@ function getSenatorStats(senators) {
         } else {
             names[senators[key].firstname] = 1;
         }
+        if (senators[key].twitterID != null) {
+            hasTwitter += 1;
+        }
     }
 
     avgAge /= senators.length;
     percentFemale /= senators.length / 100;
+    hasTwitter /= senators.length / 100;
 
     let name = "";
     let count = 0;
@@ -233,6 +235,14 @@ function getSenatorStats(senators) {
         {
             "name": "of Senators are female",
             "stat": `${percentFemale}%`
+        },
+        {
+            "name": "Senior Senators",
+            "stat": seniorSenators.length
+        },
+        {
+            "name": "Have twitter",
+            "stat": `${hasTwitter}%`
         }
     ]
 }
@@ -241,7 +251,6 @@ function getSenatorStats(senators) {
 function makeStatsBoxes(entries, observer) {
     entries.forEach((entry) => {
         if (entry.intersectionRatio === 1) {
-            console.log(entry.intersectionRatio);
             let delay = 1500;
             for (let stat of senatorStats) {
 
@@ -250,6 +259,7 @@ function makeStatsBoxes(entries, observer) {
                 box.classList.add("stat-box");
                 box.style.height = "0px";
                 box.style.width = "0px";
+                box.style.margin = "12.5vw";
                 // Create the text for the value and title of the stat
                 let statValue = document.createElement("h2");
                 statValue.classList.add("stat-box-stat");
@@ -275,11 +285,8 @@ function makeStatsBoxes(entries, observer) {
             }
         }
     });
-    console.log("done");
 
 }
-
-
 
 // function to create senior senator list 
 // need to group by party 
