@@ -250,7 +250,7 @@ function makeStatsBoxes(entries, observer) {
                 box.classList.add("stat-box");
                 box.style.height = "0px";
                 box.style.width = "0px";
-                // box.style.display = "none";
+                // Create the text for the value and title of the stat
                 let statValue = document.createElement("h2");
                 statValue.classList.add("stat-box-stat");
                 statValue.innerHTML = stat["stat"];
@@ -258,15 +258,15 @@ function makeStatsBoxes(entries, observer) {
                 statTitle.classList.add("stat-box-title");
                 statTitle.innerHTML = stat["name"];
 
+                // place the boxes in 
                 let container = document.getElementById("stat-box-container");
                 container = container.appendChild(box);
 
                 setTimeout(() => {
-                    // container.style.display = "block";
                     container.style = null;
                     setTimeout(() => {
                         container.appendChild(statValue).after(statTitle);
-                    }, 1000)
+                    }, 900);
                 }, delay);
                 delay += 1500;
 
@@ -299,8 +299,7 @@ function extractSeniorSenators(seniorData) {
     return seniorSenatorList;
 }
 
-function makeSeniorList(data) {
-    let seniorSenators = extractSeniorSenators(data);
+function makeSeniorList(seniorSenators) {
     let seniorSenatorListEl = document.getElementById("leadership");
 
     for (const seniorSenator of seniorSenators) {
@@ -517,6 +516,7 @@ let filters;
 let senators;
 let partyObj;
 let senatorStats;
+let seniorSenators;
 
 // Add event listener allows HTML to be loaded first before JS starts. Best practice
 document.addEventListener("DOMContentLoaded", async () => {
@@ -538,12 +538,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     //make senior senator list
     // seniorSenator = extractSeniorSenators(data.objects);
-    makeSeniorList(data.objects);
+    seniorSenators = extractSeniorSenators(data.objects);
+    makeSeniorList(seniorSenators);
 
 
     // Get senator stats
     senatorStats = getSenatorStats(senators);
-
 
     // Create intersection observer
     let options = {
