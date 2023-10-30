@@ -104,7 +104,7 @@ function extractSenatorInfomation(senatorData) {
 
     for (let senatorInformation of senatorData) {
         let senator = {
-            name: senatorInformation.person.name,
+            name: senatorInformation.person.name.slice(0, -6),
             party: senatorInformation.party,
             state: senatorInformation.state,
             gender: senatorInformation.person.gender_label,
@@ -119,6 +119,7 @@ function extractSenatorInfomation(senatorData) {
             age: (Math.abs(new Date(senatorInformation.birthday) - new Date()) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(2),
             firstname: senatorInformation.person.firstname
         };
+
         senatorInformationList.push(senator)
     }
     return senatorInformationList;
@@ -158,9 +159,21 @@ function makeSenatorList(senators) {
         Object.keys(senator).forEach(function (key) {
             let fieldEl = document.createElement("div"); //<div></div>
 
-            fieldEl.innerText = senator[key]; //<div>Tara</div>
-            fieldEl.setAttribute("class", key); //adds class to the inner div
+            // fieldEl.innerText = senator[key]; //<div>Tara</div>
 
+            //creating website links
+            //need to open in new tab
+            if (key === "websiteLink") {
+                let linkEl = document.createElement('a');
+                linkEl.setAttribute('href', senator[key]);
+                linkEl.setAttribute('target', '_blank')
+                linkEl.textContent = 'Visit Website';
+                fieldEl.appendChild(linkEl);
+            } else {
+                fieldEl.innerText = senator[key];
+            }
+
+            fieldEl.setAttribute("class", key); //adds class to the inner div
             // if info not key it is added to extra_info
             if (key !== "name" && key !== "party" && key !== "state") {
                 extraInfoEl.appendChild(fieldEl);
