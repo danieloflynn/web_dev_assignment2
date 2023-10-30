@@ -71,10 +71,32 @@ header h1 {
 }
 
 
+#stats2 {
+    background-color: grey;
+    height: 90vh;
+    width: 100vw;
+}
+
+#stat-box-container {
+    display: flex;
+    /* justify-content: space-evenly; */
+    width: 100vw;
+}
+
+.stat-box {
+    height: 25vw;
+    width: 25vw;
+    margin: 10px;
+    border-style: solid;
+    border-color: black;
+    border-radius: 10px;
+}
+
+
 /* End stats page styling */
 /* Start party count styling */
 
-#count-title {
+.section-title {
     text-align: center;
     margin: 0;
     padding-top: 20px;

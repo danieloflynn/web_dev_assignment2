@@ -55,7 +55,7 @@ function makeBarChart(partyObj) {
 
     // loop that creates boxes for each party
     // 
-    let delay = 1000;
+    let delay = 2000;
     for (let key in partyObj) {
         let c = document.createElement("div")
         c.setAttribute("id", key + "-party");
@@ -85,7 +85,7 @@ function makeBarChart(partyObj) {
 
         // Add the count box to the count box container, insert the count number into count box, add party after count box
         c.appendChild(cb).appendChild(cn);
-        delay += 1000
+        delay += 1500
     }
 
 
@@ -115,7 +115,9 @@ function extractSenatorInfomation(senatorData) {
             twitterID: senatorInformation.person.twitterid,
             youtubeID: senatorInformation.person.youtubeid,
             websiteLink: senatorInformation.website,
-            osid: senatorInformation.person.osid
+            osid: senatorInformation.person.osid,
+            age: (Math.abs(new Date(senatorInformation.birthday) - new Date()) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(2),
+            firstname: senatorInformation.person.firstname
         };
         senatorInformationList.push(senator)
     }
@@ -216,12 +218,6 @@ function toggleExtraInfo(senatorEl) {
         extraInfoEl.style.display = "none";
     }
 }
-
-
-
-// Start Filter Creation/Manipulation Functions
-// This 
-
 
 // get all the filter names
 // Returns a set object with all party names
@@ -434,7 +430,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     //make senior senator list
     // seniorSenator = extractSeniorSenators(data.objects);
     makeSeniorList(data.objects);
-
 });
 
 // Set the scrollY pos to 0 for use in the scroll event listener
@@ -445,13 +440,14 @@ let titleHeight = titlePage.scrollHeight;
 let capitol = document.getElementById("capitol");
 let title = document.getElementById("title");
 let barChartCreated = false;
+let titleScrolled = false;
 
 // Scroll event listener
 document.addEventListener("scroll", (event) => {
     let scrollY = window.scrollY;
     // First scroll, move the title up and make it sticky
-    if (scrollY < titleHeight / 4) {
-
+    if (scrollY < titleHeight / 4 && !titleScrolled) {
+        titleScrolled = true;
         // Move the title up and logo to the side
         titlePage.style.height = "15vh";
         titlePage.style.position = "sticky";
@@ -462,8 +458,9 @@ document.addEventListener("scroll", (event) => {
         capitol.style.width = "100px";
         title.style.top = "5vh";
 
+
+        // This function will create the bar chart
         if (!barChartCreated) {
-            // This function will create the bar chart
             makeBarChart(partyObj);
             barChartCreated = true;
         }
@@ -471,9 +468,20 @@ document.addEventListener("scroll", (event) => {
 
 
     }
+
+
+
     // TODO: Move the logo up to the top
+    // else if (scrollY === 0 && scrollY < lastScrollY) {
+    //     console.log('here');
+    //     // Move the title up and logo to the side
+    //     titlePage.style = null;
+    //     capitol.style = null;
+    //     title.style = null;
+    // }
 
     // set last scrollY
     lastScrollY = scrollY;
 
 });
+
