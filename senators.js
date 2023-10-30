@@ -174,7 +174,7 @@ function makeSenatorList(senators) {
             fieldEl.setAttribute("class", key); //adds class to the inner div
 
             // if info not key it is added to extra_info
-            if (key !== "name" && key !== "party" && key !== "state") {
+            if (key !== "name" && key !== "party" && key !== "state" && key !== "gender") {
                 extraInfoEl.appendChild(fieldEl); 
                 senatorEl.appendChild(extraInfoEl);
             }
