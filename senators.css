@@ -3,6 +3,10 @@
     font-family: sans-serif;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -27,17 +31,19 @@ header h1 {
     height: 100vh;
     width: 100vw;
     background-color: white;
+    transition-duration: 2s;
     /* display: flex;
     flex-direction: column;
     justify-items: flex-start;
     align-items: center; */
 }
 
-header {
+#title {
     width: 400px;
     position: absolute;
-    bottom: 50px;
-    left: calc(50vw - 200px)
+    top: 80vh;
+    left: calc(50vw - 200px);
+    transition-duration: 2s;
 }
 
 #capitol {
@@ -47,10 +53,21 @@ header {
     width: 400px;
     top: calc(50vh - 200px);
     left: calc(50vw - 200px);
+    transition-duration: 2s;
 }
 
 
 /* End title page styling */
+/* Start stats page styling */
+#stats1 {
+    background-color: grey;
+    height: 110vh;
+    width: 100vw;
+}
+
+
+
+/* End stats page styling */
 /* Start party count styling */
 
 #count-title {
@@ -62,14 +79,16 @@ header {
 
 #bar-chart {
     /* width: 100vw; */
-    height: 50px;
-    margin: 10px 0;
     display: flex;
+    flex-direction: column;
+
 
 }
 
 .bar {
     border: 2px solid black;
+    height: 50px;
+    margin: 10px 0;
 }
 
 .Republican {

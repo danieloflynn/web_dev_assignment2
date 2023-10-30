@@ -408,19 +408,6 @@ function getScrollDirection(scrollY) {
 }
 
 
-// Moves the capitol logo up and to the side when scrolling down
-// Takes in Y scroll position as argument, does not return
-function shrinkLogo(scrollY) {
-    // get capitol logo
-    let logo = document.getElementById("capitol");
-    // If the scrollY is 0, we are at the top of the page
-    if (scrollY === 0) {
-
-    }
-}
-
-
-
 // End title page scroll functions
 
 // Initialize filters and senat here so they are inside the scope of all the above functions
@@ -456,23 +443,31 @@ document.addEventListener("DOMContentLoaded", async () => {
 // Set the scrollY pos to 0 for use in the scroll event listener
 let lastScrollY = 0;
 let scrolling = false;
+let titlePage = document.getElementById("title-page");
+let titleHeight = titlePage.scrollHeight;
+let capitol = document.getElementById("capitol");
+let title = document.getElementById("title");
 
+
+// Scroll event listener
 document.addEventListener("scroll", (event) => {
-    scrolling = true;
-});
+    let scrollY = window.scrollY;
+    // First scroll, move the title up and make it sticky
+    if (scrollY < titleHeight / 4) {
+        titlePage.style.height = "15vh";
+        titlePage.style.position = "sticky";
+        titlePage.style.top = "0";
+        capitol.style.top = "0vh";
+        capitol.style.left = "5px";
+        capitol.style.height = "100px";
+        capitol.style.width = "100px";
+        title.style.top = "5vh";
 
-setInterval(() => {
-    if (scrolling === true) {
-        scrolling = false;
-        // TODO: Move the capitol out of the way
-        let scrollY = window.scrollY;
-        let direction = getScrollDirection(scrollY);
-        console.log(direction);
-        shrinkLogo(scrollY);
-        // TODO: Move the logo up to the top
-
-        // set last scrollY
-        lastScrollY = scrollY;
 
     }
-}, 1000)
+    // TODO: Move the logo up to the top
+
+    // set last scrollY
+    lastScrollY = scrollY;
+
+});
