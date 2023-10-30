@@ -32,6 +32,7 @@ header h1 {
     width: 100vw;
     background-color: white;
     transition-duration: 2s;
+    z-index: 1;
     /* display: flex;
     flex-direction: column;
     justify-items: flex-start;
@@ -44,6 +45,7 @@ header h1 {
     top: 80vh;
     left: calc(50vw - 200px);
     transition-duration: 2s;
+    z-index: 1;
 }
 
 #capitol {
@@ -54,6 +56,7 @@ header h1 {
     top: calc(50vh - 200px);
     left: calc(50vw - 200px);
     transition-duration: 2s;
+    z-index: 1;
 }
 
 
@@ -84,12 +87,32 @@ header h1 {
 }
 
 .stat-box {
+    position: relative;
     height: 25vw;
     width: 25vw;
     margin: 10px;
     border-style: solid;
     border-color: black;
     border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    transition-duration: 1s;
+}
+
+.stat-box-stat {
+    padding: 0;
+    margin: 0;
+    font-size: 7em;
+    text-align: center;
+}
+
+div .stat-box-title {
+    position: absolute;
+    bottom: 0;
+    font-size: 1em;
+    text-align: center;
 }
 
 

@@ -116,7 +116,7 @@ function extractSenatorInfomation(senatorData) {
             youtubeID: senatorInformation.person.youtubeid,
             websiteLink: senatorInformation.website,
             osid: senatorInformation.person.osid,
-            age: (Math.abs(new Date(senatorInformation.birthday) - new Date()) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(2),
+            age: (Math.abs(new Date(senatorInformation.person.birthday) - new Date()) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(2),
             firstname: senatorInformation.person.firstname
         };
 
@@ -197,7 +197,7 @@ function getSenatorStats(senators) {
     let names = {} //Names and how often they occur
 
     for (let key in senators) {
-        avgAge += senators[key].age;
+        avgAge += +senators[key].age;
         if (senators[key].gender === "Female") {
             percentFemale += 1;
         }
@@ -221,10 +221,65 @@ function getSenatorStats(senators) {
         }
     }
 
-    console.log(name);
-    console.log(percentFemale);
-    console.log(avgAge);
+    return [
+        {
+            "name": "Average age",
+            "stat": Math.round(avgAge)
+        },
+        {
+            "name": "Most common name",
+            "stat": name
+        },
+        {
+            "name": "of Senators are female",
+            "stat": `${percentFemale}%`
+        }
+    ]
 }
+
+// Makes the boxes that display stats for the senators
+function makeStatsBoxes(entries, observer) {
+    entries.forEach((entry) => {
+        if (entry.intersectionRatio === 1) {
+            console.log(entry.intersectionRatio);
+            let delay = 1500;
+            for (let stat of senatorStats) {
+
+                // Create div for the stat to sit in
+                let box = document.createElement("div");
+                box.classList.add("stat-box");
+                box.style.height = "0px";
+                box.style.width = "0px";
+                // box.style.display = "none";
+                let statValue = document.createElement("h2");
+                statValue.classList.add("stat-box-stat");
+                statValue.innerHTML = stat["stat"];
+                let statTitle = document.createElement("p");
+                statTitle.classList.add("stat-box-title");
+                statTitle.innerHTML = stat["name"];
+
+                let container = document.getElementById("stat-box-container");
+                container = container.appendChild(box);
+
+                setTimeout(() => {
+                    // container.style.display = "block";
+                    container.style = null;
+                    setTimeout(() => {
+                        container.appendChild(statValue).after(statTitle);
+                    }, 1000)
+                }, delay);
+                delay += 1500;
+
+                observer.unobserve(entry.target);
+
+            }
+        }
+    });
+    console.log("done");
+
+}
+
+
 
 // function to create senior senator list 
 // need to group by party 
@@ -488,6 +543,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Get senator stats
     senatorStats = getSenatorStats(senators);
+
+
+    // Create intersection observer
+    let options = {
+        root: null,
+        rootMargin: "0px",
+        threshold: 1,
+    };
+
+    let observer = new IntersectionObserver(makeStatsBoxes, options);
+    let target = document.getElementById("stat-box-container");
+    observer.observe(target);
 });
 
 // Set the scrollY pos to 0 for use in the scroll event listener
@@ -543,10 +610,3 @@ document.addEventListener("scroll", (event) => {
 
 });
 
-let options = {
-    root: document.getElementById("stats2"),
-    rootMargin: "0px",
-    threshold: 0.5,
-};
-
-let observer = new IntersectionObserver(callback, options);
