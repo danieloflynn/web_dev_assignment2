@@ -188,6 +188,13 @@ function makeSenatorList(senators) {
 
 }
 
+
+// Function to get senator stats
+// Returns dictionary of senator stats
+function getSenatorStats(senators) {
+
+}
+
 // function to create senior senator list 
 // need to group by party 
 function extractSeniorSenators(seniorData) {
@@ -422,7 +429,8 @@ function getScrollDirection(scrollY) {
 // Initialize filters and senat here so they are inside the scope of all the above functions
 let filters;
 let senators;
-let partyObj
+let partyObj;
+let senatorStats;
 
 // Add event listener allows HTML to be loaded first before JS starts. Best practice
 document.addEventListener("DOMContentLoaded", async () => {
@@ -431,6 +439,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const data = await getData();
     // object with party as key and count as value
     partyObj = countSenatorsByParty(data);
+
+
     // filter object with state, party, gender, rank, for insertion into filter boxes
     filters = getFilterNames(data);
     // Insert filter options
@@ -443,6 +453,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     //make senior senator list
     // seniorSenator = extractSeniorSenators(data.objects);
     makeSeniorList(data.objects);
+
+
+    // Get senator stats
+    senatorStats = getSenatorStats(senators);
 });
 
 // Set the scrollY pos to 0 for use in the scroll event listener
