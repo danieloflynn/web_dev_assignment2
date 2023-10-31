@@ -19,12 +19,11 @@ async function getData() {
             document.getElementById("div").innerText = "Unknown error: HTTP status code " + data.status;
         }
     }
-    catch(error){
+    catch (error) {
         document.getElementById("div").innerText = "Error: " + error.message;
     }
 
     return json;
- 
 
 }
 
@@ -53,45 +52,42 @@ function makeBarChart(partyObj) {
 
 
 
-    // loop that creates boxes for each party and sizes/colours them accordingly
-    for (key in partyObj) {
+    // loop that creates boxes for each party
+    // 
+    let delay = 2000;
+    for (let key in partyObj) {
+        let c = document.createElement("div")
+        c.setAttribute("id", key + "-party");
+        c.classList.add("bar-container")
         let el = document.createElement("div");
         el.classList.add("bar");
         el.classList.add(key);
-        el.setAttribute("style", "width: " + partyObj[key] * 100 / totalSenators.toString() + "vw")
-        document.getElementById("bar-chart").appendChild(el)
+        el.setAttribute("style", "width: 0");
+        document.getElementById("bar-chart").appendChild(c).appendChild(el);
+        function setWidth() {
+            el.setAttribute("style", "width: " + partyObj[key] * 100 / totalSenators.toString() + "vw");
+        }
+        setTimeout(setWidth, delay);
 
-    }
-
-}
-
-// Make boxes for the count of senators by party
-// Takes object with parties as keys and number of senators as value
-function makePartyBoxes(partyObj) {
-
-    for (let key in partyObj) {
 
         // Make the count box
         let cb = document.createElement("div");
         cb.classList.add("count");
-        cb.setAttribute("id", key + "-party");
 
         // Add the count number
         let cn = document.createElement("h1");
         cn.classList.add("count-number");
-        cn.innerHTML = partyObj[key];
+        cn.innerHTML = partyObj[key] + " " + key;
 
 
-        // Add the party name
-        let cp = document.createElement("h2");
-        cp.classList.add("count-party");
-        cp.innerHTML = key;
+
 
         // Add the count box to the count box container, insert the count number into count box, add party after count box
-        document.getElementById("count-boxes").appendChild(cb).appendChild(cn).after(cp);
-
+        c.appendChild(cb).appendChild(cn);
+        delay += 1500
     }
 }
+
 
 // making boxes for each senator for full list
 // pulls the following info from data letiable :
@@ -104,7 +100,7 @@ function extractSenatorInfomation(senatorData) {
 
     for (let senatorInformation of senatorData) {
         let senator = {
-            name: senatorInformation.person.name.slice(0,-6),
+            name: senatorInformation.person.name.slice(0, -6),
             party: senatorInformation.party,
             state: senatorInformation.state,
             gender: senatorInformation.person.gender_label,
@@ -115,7 +111,9 @@ function extractSenatorInfomation(senatorData) {
             twitterID: senatorInformation.person.twitterid,
             youtubeID: senatorInformation.person.youtubeid,
             websiteLink: senatorInformation.website,
-            osid: senatorInformation.person.osid
+            osid: senatorInformation.person.osid,
+            age: (Math.abs(new Date(senatorInformation.person.birthday) - new Date()) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(2),
+            firstname: senatorInformation.person.firstname
         };
 
         senatorInformationList.push(senator)
@@ -149,36 +147,35 @@ function makeSenatorList(senators) {
         senatorEl.setAttribute("id", senator.osid);
         senatorEl.setAttribute("class", "senator-box");
         senatorEl.setAttribute("onclick", "toggleExtraInfo(this)"); //on click for the extra info dropdown 
-        
+
         var extraInfoEl = document.createElement("div");  //creating extra_info div for the drop down section
-        extraInfoEl.setAttribute("class", "extra_info"); 
-        extraInfoEl.style.display ="none"; //hide div first
-       
+        extraInfoEl.setAttribute("class", "extra_info");
+        extraInfoEl.style.display = "none"; //hide div first
+
         Object.keys(senator).forEach(function (key) {
             let fieldEl = document.createElement("div"); //<div></div>
 
             // fieldEl.innerText = senator[key]; //<div>Tara</div>
-            
+
             //creating website links
             //need to open in new tab
             if (key === "websiteLink") {
                 let linkEl = document.createElement('a');
                 linkEl.setAttribute('href', senator[key]);
-                linkEl.setAttribute('target', '_blank') 
-                linkEl.textContent = 'Visit Website'; 
+                linkEl.setAttribute('target', '_blank')
+                linkEl.textContent = 'Visit Website';
                 fieldEl.appendChild(linkEl);
             } else {
                 fieldEl.innerText = senator[key];
             }
-            
-            fieldEl.setAttribute("class", key); //adds class to the inner div
 
+            fieldEl.setAttribute("class", key); //adds class to the inner div
             // if info not key it is added to extra_info
             if (key !== "name" && key !== "party" && key !== "state") {
-                extraInfoEl.appendChild(fieldEl); 
+                extraInfoEl.appendChild(fieldEl);
                 senatorEl.appendChild(extraInfoEl);
             }
-            else{
+            else {
                 senatorEl.appendChild(fieldEl); //<div class ="senator-box"><div>Tara</div></div>
             }
         })
@@ -187,37 +184,135 @@ function makeSenatorList(senators) {
 
 }
 
+
+// Function to get senator stats
+// Returns dictionary of senator stats
+function getSenatorStats(senators) {
+    console.log(senators);
+    let avgAge = 0; //Average age
+    let percentFemale = 0; //percent of senators that are women
+    let names = {} //Names and how often they occur
+    let hasTwitter = 0; //percent of senators that have twitter
+
+    for (let key in senators) {
+        avgAge += +senators[key].age;
+        if (senators[key].gender === "Female") {
+            percentFemale += 1;
+        }
+        if (senators[key].firstname in names) {
+            names[senators[key].firstname] += 1;
+        } else {
+            names[senators[key].firstname] = 1;
+        }
+        if (senators[key].twitterID != null) {
+            hasTwitter += 1;
+        }
+    }
+
+    avgAge /= senators.length;
+    percentFemale /= senators.length / 100;
+    hasTwitter /= senators.length / 100;
+
+    let name = "";
+    let count = 0;
+
+    for (let key in names) {
+        if (names[key] > count) {
+            name = key;
+            count = names[key];
+        }
+    }
+
+    return [
+        {
+            "name": "Average age",
+            "stat": Math.round(avgAge)
+        },
+        {
+            "name": "Most common name",
+            "stat": name
+        },
+        {
+            "name": "of Senators are female",
+            "stat": `${percentFemale}%`
+        },
+        {
+            "name": "Senior Senators",
+            "stat": seniorSenators.length
+        },
+        {
+            "name": "Have twitter",
+            "stat": `${hasTwitter}%`
+        }
+    ]
+}
+
+// Makes the boxes that display stats for the senators
+function makeStatsBoxes(entries, observer) {
+    entries.forEach((entry) => {
+        if (entry.intersectionRatio === 1) {
+            let delay = 1500;
+            for (let stat of senatorStats) {
+
+                // Create div for the stat to sit in
+                let box = document.createElement("div");
+                box.classList.add("stat-box");
+                box.style.height = "0px";
+                box.style.width = "0px";
+                box.style.margin = "12.5vw";
+                // Create the text for the value and title of the stat
+                let statValue = document.createElement("h2");
+                statValue.classList.add("stat-box-stat");
+                statValue.innerHTML = stat["stat"];
+                let statTitle = document.createElement("p");
+                statTitle.classList.add("stat-box-title");
+                statTitle.innerHTML = stat["name"];
+
+                // place the boxes in 
+                let container = document.getElementById("stat-box-container");
+                container = container.appendChild(box);
+
+                setTimeout(() => {
+                    container.style = null;
+                    setTimeout(() => {
+                        container.appendChild(statValue).after(statTitle);
+                    }, 900);
+                }, delay);
+                delay += 1500;
+
+                observer.unobserve(entry.target);
+
+            }
+        }
+    });
+
+}
+
 // function to create senior senator list 
 // need to group by party 
-function extractSeniorSenators(seniorData){
+function extractSeniorSenators(seniorData) {
     let seniorSenatorList = [];
-    // console.log(seniorData)
-    for (let seniorSenatorInfo of seniorData){
+    for (let seniorSenatorInfo of seniorData) {
         // filters the senators that have a leadership title 
-        console.log(seniorSenatorInfo)
         if (seniorSenatorInfo.leadership_title) {
             let seniorSenator = {
                 title: seniorSenatorInfo.leadership_title,
-                name: seniorSenatorInfo.person.name.slice(0,-6),
+                name: seniorSenatorInfo.person.name.slice(0, -6),
                 party: seniorSenatorInfo.party,
             };
             seniorSenatorList.push(seniorSenator);
         }
     }
-     // Sort the list by party
-    seniorSenatorList.sort((a, b) => a.party.toLowerCase() > b.party.toLowerCase() ? 1 : -1);
-
     return seniorSenatorList;
 }
 
-function makeSeniorList(data){
-    let seniorSenators = extractSeniorSenators(data);
+function makeSeniorList(seniorSenators) {
     let seniorSenatorListEl = document.getElementById("leadership");
 
-    for (const seniorSenator of seniorSenators){
+    for (const seniorSenator of seniorSenators) {
         let seniorSenatorEl = document.createElement("div");
         seniorSenatorEl.className = 'seniorSenator-box';
-        Object.keys(seniorSenator).forEach(function (key){
+        Object.keys(seniorSenator).forEach(function (key) {
             let fieldEl = document.createElement("div");
             fieldEl.innerText = seniorSenator[key];
             seniorSenatorEl.appendChild(fieldEl);
@@ -236,16 +331,10 @@ function toggleExtraInfo(senatorEl) {
     }
 }
 
-
-
-// Start Filter Creation/Manipulation Functions
-// This 
-
-
 // get all the filter names
 // Returns a set object with all party names
 // TODO: Change this to take the set from senatorList instead of the raw data
-function getFilterNames(data){
+function getFilterNames(data) {
 
     return {
         "party": Array.from(new Set(data["objects"].map(x => x["party"]))).sort().reverse(),
@@ -412,23 +501,39 @@ function toggleSelection(grouping, item) {
     writeSelectedText(grouping, selected);
 
 }
-
-
 // End Filter Manipulation Functions
-// Initialize filters and senators here so they are inside the scope of all the above functions
+
+// Start title page scroll functions
+
+// Gets scroll direction
+// Returns "Down" if scroll direction is down, "Up" if scroll direction is up
+function getScrollDirection(scrollY) {
+    if (scrollY > lastScrollY) {
+        return "Down"
+    } else {
+        return "Up"
+    }
+}
+
+
+// End title page scroll functions
+
+// Initialize filters and senat here so they are inside the scope of all the above functions
 let filters;
 let senators;
+let partyObj;
+let senatorStats;
+let seniorSenators;
+
 // Add event listener allows HTML to be loaded first before JS starts. Best practice
 document.addEventListener("DOMContentLoaded", async () => {
 
     // Pull the data from JSON file
     const data = await getData();
     // object with party as key and count as value
-    const partyObj = countSenatorsByParty(data);
-    // This function will create the bar chart
-    makeBarChart(partyObj);
-    // Make the boxes with the count per party
-    makePartyBoxes(partyObj);
+    partyObj = countSenatorsByParty(data);
+
+
     // filter object with state, party, gender, rank, for insertion into filter boxes
     filters = getFilterNames(data);
     // Insert filter options
@@ -440,6 +545,75 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     //make senior senator list
     // seniorSenator = extractSeniorSenators(data.objects);
-    makeSeniorList(data.objects);
+    seniorSenators = extractSeniorSenators(data.objects);
+    makeSeniorList(seniorSenators);
+
+
+    // Get senator stats
+    senatorStats = getSenatorStats(senators);
+
+    // Create intersection observer
+    let options = {
+        root: null,
+        rootMargin: "0px",
+        threshold: 1,
+    };
+
+    let observer = new IntersectionObserver(makeStatsBoxes, options);
+    let target = document.getElementById("stat-box-container");
+    observer.observe(target);
+});
+
+// Set the scrollY pos to 0 for use in the scroll event listener
+let lastScrollY = 0;
+let scrolling = false;
+let titlePage = document.getElementById("title-page");
+let titleHeight = titlePage.scrollHeight;
+let capitol = document.getElementById("capitol");
+let title = document.getElementById("title");
+let barChartCreated = false;
+let titleScrolled = false;
+
+// Scroll event listener
+document.addEventListener("scroll", (event) => {
+    let scrollY = window.scrollY;
+    // First scroll, move the title up and make it sticky
+    if (scrollY < titleHeight / 4 && !titleScrolled) {
+        titleScrolled = true;
+        // Move the title up and logo to the side
+        titlePage.style.height = "15vh";
+        titlePage.style.position = "sticky";
+        titlePage.style.top = "0";
+        capitol.style.top = "0vh";
+        capitol.style.left = "5px";
+        capitol.style.height = "100px";
+        capitol.style.width = "100px";
+        title.style.top = "5vh";
+
+
+        // This function will create the bar chart
+        if (!barChartCreated) {
+            makeBarChart(partyObj);
+            barChartCreated = true;
+        }
+
+
+
+    }
+
+
+
+    // TODO: Move the logo up to the top
+    // else if (scrollY === 0 && scrollY < lastScrollY) {
+    //     console.log('here');
+    //     // Move the title up and logo to the side
+    //     titlePage.style = null;
+    //     capitol.style = null;
+    //     title.style = null;
+    // }
+
+    // set last scrollY
+    lastScrollY = scrollY;
 
 });
+
