@@ -100,6 +100,7 @@ function extractSenatorInfomation(senatorData) {
 
     for (let senatorInformation of senatorData) {
         let senator = {
+            img: `https://www.govtrack.us/static/legislator-photos/${senatorInformation.person.link.slice(-6)}-200px.jpeg`,
             name: senatorInformation.person.name.slice(0, -6),
             party: senatorInformation.party,
             state: senatorInformation.state,
@@ -165,6 +166,10 @@ function makeSenatorList(senators) {
                 linkEl.setAttribute('target', '_blank')
                 linkEl.textContent = 'Visit Website';
                 fieldEl.appendChild(linkEl);
+            } else if (key === "img") {
+                let img = document.createElement('img');
+                img.src = senator[key];
+                fieldEl.appendChild(img);
             } else {
                 fieldEl.innerText = senator[key];
             }
@@ -188,7 +193,6 @@ function makeSenatorList(senators) {
 // Function to get senator stats
 // Returns dictionary of senator stats
 function getSenatorStats(senators) {
-    console.log(senators);
     let avgAge = 0; //Average age
     let percentFemale = 0; //percent of senators that are women
     let names = {} //Names and how often they occur
@@ -601,18 +605,6 @@ document.addEventListener("scroll", (event) => {
 
     }
 
-
-
-    // TODO: Move the logo up to the top
-    // else if (scrollY === 0 && scrollY < lastScrollY) {
-    //     console.log('here');
-    //     // Move the title up and logo to the side
-    //     titlePage.style = null;
-    //     capitol.style = null;
-    //     title.style = null;
-    // }
-
-    // set last scrollY
     lastScrollY = scrollY;
 
 });
