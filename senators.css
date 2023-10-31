@@ -3,33 +3,141 @@
     font-family: sans-serif;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
 header h1 {
     text-align: center;
+    color: black;
 }
 
 
 
 /* End global styles */
 
+/* Start title page styling */
+#title-page {
+    /* position: absolute; */
+    /* left: 0;
+    top: 0; */
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: white;
+    transition-duration: 2s;
+    z-index: 1;
+    /* display: flex;
+    flex-direction: column;
+    justify-items: flex-start;
+    align-items: center; */
+}
+
+#title {
+    width: 400px;
+    position: absolute;
+    top: 80vh;
+    left: calc(50vw - 200px);
+    transition-duration: 2s;
+    z-index: 1;
+}
+
+#capitol {
+    /* justify-self: center; */
+    position: absolute;
+    height: 400px;
+    width: 400px;
+    top: calc(50vh - 200px);
+    left: calc(50vw - 200px);
+    transition-duration: 2s;
+    z-index: 1;
+}
+
+
+/* End title page styling */
+/* Start stats page styling */
+#stats1 {
+    background-color: white;
+    height: 90vh;
+    width: 100vw;
+}
+
+.bar-container {
+    display: flex;
+    justify-content: flex-start;
+}
+
+
+#stats2 {
+    background-color: white;
+    /* height: 90vh; */
+    width: 100vw;
+}
+
+#stat-box-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    width: 100vw;
+}
+
+.stat-box {
+    position: relative;
+    height: 25vw;
+    width: 25vw;
+    margin: 10px;
+    border-style: solid;
+    border-color: black;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    transition-duration: 1s;
+}
+
+.stat-box-stat {
+    padding: 0;
+    margin: 0;
+    font-size: 7em;
+    text-align: center;
+}
+
+div .stat-box-title {
+    position: absolute;
+    bottom: 0;
+    font-size: 1em;
+    text-align: center;
+}
+
+
+/* End stats page styling */
 /* Start party count styling */
 
-#count-title {
+.section-title {
     text-align: center;
-    border-style: solid;
-    border-radius: 3px;
     margin: 0;
+    padding-top: 20px;
 }
 
 #bar-chart {
-    /* width: 100vw; */
-    height: 50px;
-    margin: 10px 0;
+    height: 80vh;
     display: flex;
-
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 
 .bar {
     border: 2px solid black;
+    height: 50px;
+    margin: 10px 10px;
+    transition-duration: 2s;
 }
 
 .Republican {
@@ -50,7 +158,7 @@ header h1 {
 }
 
 
-#Republican-party {
+/* #Republican-party {
     background-color: lightcoral;
 }
 
@@ -60,23 +168,22 @@ header h1 {
 
 #Independent-party {
     background-color: blanchedalmond;
-}
+} */
 
 .count {
     display: grid;
     flex-direction: column;
     align-items: center;
-    width: 300px;
-    height: 110px;
-    border-style: solid;
-    border-color: black;
+    /* width: 300px;
+    height: 110px; */
+
     border-radius: 3px;
 }
 
 .count-number {
     margin: 0;
     justify-self: center;
-    font-size: 4em;
+    font-size: 2em;
 }
 
 .count-party {
@@ -125,6 +232,7 @@ header h1 {
 
 .filter-box:hover {
     background-color: lightgray;
+    cursor: pointer;
 }
 
 .filter-text {
@@ -198,41 +306,51 @@ header h1 {
 }
 
 /* Start Senior Senator List Styling */
-#leadership{
+#leadership {
     /* background-color: aqua; */
     display: flex;
     flex-direction: column;
     border-style: solid;
 }
-.seniorSenator-box{
+
+.seniorSenator-box {
     /* background-color: violet; */
-    margin: 20px;
+    margin: 5px;
+    padding: 5px;
     display: flex;
     border-style: solid;
     text-align: center;
-    
+
 }
 
 
 /* End Senior Senator List Styling */
 
 /* Start Senator List Styling */
-#senators{
+#senators {
     /* background-color: aqua; */
     width: 750px;
     border-style: solid;
     /* display: flex;
     align-items: center; */
 }
-#senator-list{
+
+#senator-list {
     text-align: center;
     /* background-color: blueviolet; */
     border-style: solid;
 }
-.senator-box{
+
+.senator-box {
     padding: 10px;
     /* background-color: antiquewhite; */
     margin: 10px;
     border-style: solid;
 }
+
+.senator-box:hover {
+    background-color: lightgray;
+    cursor: pointer;
+}
+
 /* End Senator List Styling */
