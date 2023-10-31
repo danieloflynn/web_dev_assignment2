@@ -94,7 +94,7 @@ function makeBarChart(partyObj) {
 // name, party, state, gender, rank, office, DOB, start date, twitter ID, youtube ID, website link
 
 function extractSenatorInfomation(senatorData) {
-    //make sort by ranking & party 
+
 
     let senatorInformationList = [];
 
@@ -118,6 +118,7 @@ function extractSenatorInfomation(senatorData) {
 
         senatorInformationList.push(senator)
     }
+    senatorInformationList.sort((a, b) => a.party.localeCompare(b.party));
     return senatorInformationList;
 }
 
@@ -302,6 +303,7 @@ function extractSeniorSenators(seniorData) {
             seniorSenatorList.push(seniorSenator);
         }
     }
+    seniorSenatorList.sort((a, b) => a.party.localeCompare(b.party));
     return seniorSenatorList;
 }
 
