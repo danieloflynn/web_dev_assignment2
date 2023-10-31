@@ -307,24 +307,44 @@ div .stat-box-title {
 
 /* Start Senior Senator List Styling */
 #leadership {
-    /* background-color: aqua; */
     display: flex;
     flex-direction: column;
     border-style: solid;
+    width: 60%;
+    margin: auto;
 }
 
 .seniorSenator-box {
-    /* background-color: violet; */
     margin: 5px;
     padding: 5px;
     display: flex;
-    border-style: solid;
-    text-align: center;
+    text-align: left;
+    display: flex;
+    flex-wrap: wrap;
 
+}
+
+.leadertitle {    
+    font-weight: bold;
+    flex-basis: 100%;
+    margin-bottom: 10px;
+    width: 100em;
+
+}
+
+.leadername {
+    flex: 1;
+    margin-bottom: 10px;
+}
+
+.leaderparty {
+    flex: 1;
+    margin-bottom: 10px;
 }
 
 
 /* End Senior Senator List Styling */
+
 
 /* Start Senator List Styling */
 #senators {

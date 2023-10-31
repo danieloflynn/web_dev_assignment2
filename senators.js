@@ -319,6 +319,7 @@ function makeSeniorList(seniorSenators) {
         seniorSenatorEl.className = 'seniorSenator-box';
         Object.keys(seniorSenator).forEach(function (key){
             let fieldEl = document.createElement("div");
+            fieldEl.setAttribute("class", `leader${key}`); //inner div name 
             fieldEl.innerText = seniorSenator[key];
             seniorSenatorEl.appendChild(fieldEl);
         })
