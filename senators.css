@@ -319,7 +319,6 @@ div .stat-box-title {
     padding: 5px;
     display: flex;
     text-align: left;
-    display: flex;
     flex-wrap: wrap;
 
 }
@@ -328,19 +327,23 @@ div .stat-box-title {
     font-weight: bold;
     flex-basis: 100%;
     margin-bottom: 10px;
-    width: 100em;
+    width: 100%;
 
 }
 
 .leadername {
-    flex: 1;
+    /* flex: 1; */
     margin-bottom: 10px;
+    
 }
 
 .leaderparty {
-    flex: 1;
+    /* flex: 1; */
     margin-bottom: 10px;
+    text-align: left;
+    padding-left: 10px;
 }
+    
 
 
 /* End Senior Senator List Styling */
