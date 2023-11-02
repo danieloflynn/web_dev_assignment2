@@ -195,11 +195,7 @@ div .stat-box-title {
 /* End count box styling */
 
 /* Start Senator styling */
-#senator-container {
-    display: flex;
-    align-items: flex-start;
 
-}
 
 /* End Senator styling */
 
@@ -350,8 +346,15 @@ div .stat-box-title {
 
 
 /* Start Senator List Styling */
+#senator-container {
+    display: flex;
+    align-items: flex-start;
+
+}
+
+
 #senators {
-    /* background-color: aqua; */
+    background-color: aqua;
     width: 750px;
     border-style: solid;
     /* display: flex;
@@ -360,20 +363,41 @@ div .stat-box-title {
 
 #senator-list {
     text-align: center;
-    /* background-color: blueviolet; */
+    background-color: blueviolet;
     border-style: solid;
 }
 
 .senator-box {
     padding: 10px;
-    /* background-color: antiquewhite; */
+    background-color: antiquewhite;
     margin: 10px;
     border-style: solid;
+    display: flex;
+    flex-direction: row;
+    
 }
 
 .senator-box:hover {
     background-color: lightgray;
     cursor: pointer;
+}
+.senator-box .img{
+    order: 1;
+
+}
+
+.name{
+    order: 2;
+}
+
+.party{
+    order: 2;
+}
+.gender{
+    order: 2; 
+}
+.state{
+    order:2;
 }
 
 /* End Senator List Styling */

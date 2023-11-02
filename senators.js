@@ -153,12 +153,17 @@ function makeSenatorList(senators) {
         var extraInfoEl = document.createElement("div");  //creating extra_info div for the drop down section
         extraInfoEl.setAttribute("class", "extra_info");
         extraInfoEl.style.display = "none"; //hide div first
+        
+        
+        var senatorMainEl = document.createElement("div"); //main_info div
+        senatorMainEl.setAttribute("class", "main_info");
 
         Object.keys(senator).forEach(function (key) {
             let fieldEl = document.createElement("div"); //<div></div>
 
             // fieldEl.innerText = senator[key]; //<div>Tara</div>
-
+            
+            
             //creating website links
             if (key === "websiteLink") {
                 let linkEl = document.createElement('a');
@@ -173,12 +178,19 @@ function makeSenatorList(senators) {
             } else {
                 fieldEl.innerText = senator[key];
             }
-
+            
             fieldEl.setAttribute("class", key); //adds class to the inner div
+
+            //if key not img or extra info, adding to main_info div  
             // if info not key it is added to extra_info
             if (key !== "name" && key !== "party" && key !== "state" && key !== "img" && key !== "gender") {
                 extraInfoEl.appendChild(fieldEl);
                 senatorEl.appendChild(extraInfoEl);
+            }
+            else if (key === "name" || key === "party" || key === "state" || key === "gender"){
+                console.log("fine")
+                senatorMainEl.appendChild(fieldEl);
+                senatorEl.appendChild(senatorMainEl);
             }
             else {
                 senatorEl.appendChild(fieldEl); //<div class ="senator-box"><div>Tara</div></div>
