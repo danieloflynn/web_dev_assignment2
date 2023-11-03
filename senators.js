@@ -94,14 +94,14 @@ function makeBarChart(partyObj) {
 // name, party, state, gender, rank, office, DOB, start date, twitter ID, youtube ID, website link
 
 function extractSenatorInfomation(senatorData) {
-    //make sort by ranking & party 
+
 
     let senatorInformationList = [];
 
     for (let senatorInformation of senatorData) {
         let senator = {
             img: `https://www.govtrack.us/static/legislator-photos/${senatorInformation.person.link.slice(-6)}-200px.jpeg`,
-            name: senatorInformation.person.name.slice(0, -6),
+            name: senatorInformation.person.name.slice(0,-6),
             party: senatorInformation.party,
             state: senatorInformation.state,
             gender: senatorInformation.person.gender_label,
@@ -119,6 +119,7 @@ function extractSenatorInfomation(senatorData) {
 
         senatorInformationList.push(senator)
     }
+    senatorInformationList.sort((a, b) => a.party.localeCompare(b.party));
     return senatorInformationList;
 }
 
@@ -152,14 +153,18 @@ function makeSenatorList(senators) {
         var extraInfoEl = document.createElement("div");  //creating extra_info div for the drop down section
         extraInfoEl.setAttribute("class", "extra_info");
         extraInfoEl.style.display = "none"; //hide div first
+        
+        
+        var senatorMainEl = document.createElement("div"); //main_info div
+        senatorMainEl.setAttribute("class", "main_info");
 
         Object.keys(senator).forEach(function (key) {
             let fieldEl = document.createElement("div"); //<div></div>
 
             // fieldEl.innerText = senator[key]; //<div>Tara</div>
-
+            
+            
             //creating website links
-            //need to open in new tab
             if (key === "websiteLink") {
                 let linkEl = document.createElement('a');
                 linkEl.setAttribute('href', senator[key]);
@@ -173,12 +178,19 @@ function makeSenatorList(senators) {
             } else {
                 fieldEl.innerText = senator[key];
             }
-
+            
             fieldEl.setAttribute("class", key); //adds class to the inner div
+
+            //if key not img or extra info, adding to main_info div  
             // if info not key it is added to extra_info
             if (key !== "name" && key !== "party" && key !== "state" && key !== "img" && key !== "gender") {
                 extraInfoEl.appendChild(fieldEl);
                 senatorEl.appendChild(extraInfoEl);
+            }
+            else if (key === "name" || key === "party" || key === "state" || key === "gender"){
+                console.log("fine")
+                senatorMainEl.appendChild(fieldEl);
+                senatorEl.appendChild(senatorMainEl);
             }
             else {
                 senatorEl.appendChild(fieldEl); //<div class ="senator-box"><div>Tara</div></div>
@@ -301,12 +313,13 @@ function extractSeniorSenators(seniorData) {
         if (seniorSenatorInfo.leadership_title) {
             let seniorSenator = {
                 title: seniorSenatorInfo.leadership_title,
-                name: seniorSenatorInfo.person.name.slice(0, -6),
+                name: seniorSenatorInfo.person.name.slice(0,-6),
                 party: seniorSenatorInfo.party,
             };
             seniorSenatorList.push(seniorSenator);
         }
     }
+    seniorSenatorList.sort((a, b) => a.party.localeCompare(b.party));
     return seniorSenatorList;
 }
 
@@ -316,8 +329,9 @@ function makeSeniorList(seniorSenators) {
     for (const seniorSenator of seniorSenators) {
         let seniorSenatorEl = document.createElement("div");
         seniorSenatorEl.className = 'seniorSenator-box';
-        Object.keys(seniorSenator).forEach(function (key) {
+        Object.keys(seniorSenator).forEach(function (key){
             let fieldEl = document.createElement("div");
+            fieldEl.setAttribute("class", `leader${key}`); //inner div name 
             fieldEl.innerText = seniorSenator[key];
             seniorSenatorEl.appendChild(fieldEl);
         })
