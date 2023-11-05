@@ -4,7 +4,7 @@ async function getData() {
     let json;
     try {
         // try block 
-        let data = await fetch("./senators.json");
+        let data = await fetch("./json/senators.json");
         // if not successful:
         if (data.ok) {
             json = await data.json(); //assign value don't declare, scoping was causing me heartfailure :) 
@@ -101,7 +101,7 @@ function extractSenatorInfomation(senatorData) {
     for (let senatorInformation of senatorData) {
         let senator = {
             img: `https://www.govtrack.us/static/legislator-photos/${senatorInformation.person.link.slice(-6)}-200px.jpeg`,
-            name: senatorInformation.person.name.slice(0,-6),
+            name: senatorInformation.person.name.slice(0, -6),
             party: senatorInformation.party,
             state: senatorInformation.state,
             gender: senatorInformation.person.gender_label,
@@ -153,8 +153,8 @@ function makeSenatorList(senators) {
         var extraInfoEl = document.createElement("div");  //creating extra_info div for the drop down section
         extraInfoEl.setAttribute("class", "extra_info");
         extraInfoEl.style.display = "none"; //hide div first
-        
-        
+
+
         var senatorMainEl = document.createElement("div"); //main_info div
         senatorMainEl.setAttribute("class", "main_info");
 
@@ -162,8 +162,8 @@ function makeSenatorList(senators) {
             let fieldEl = document.createElement("div"); //<div></div>
 
             // fieldEl.innerText = senator[key]; //<div>Tara</div>
-            
-            
+
+
             //creating website links
             if (key === "websiteLink") {
                 let linkEl = document.createElement('a');
@@ -178,7 +178,7 @@ function makeSenatorList(senators) {
             } else {
                 fieldEl.innerText = senator[key];
             }
-            
+
             fieldEl.setAttribute("class", key); //adds class to the inner div
 
             //if key not img or extra info, adding to main_info div  
@@ -187,7 +187,7 @@ function makeSenatorList(senators) {
                 extraInfoEl.appendChild(fieldEl);
                 senatorEl.appendChild(extraInfoEl);
             }
-            else if (key === "name" || key === "party" || key === "state" || key === "gender"){
+            else if (key === "name" || key === "party" || key === "state" || key === "gender") {
                 console.log("fine")
                 senatorMainEl.appendChild(fieldEl);
                 senatorEl.appendChild(senatorMainEl);
@@ -263,46 +263,46 @@ function getSenatorStats(senators) {
     ]
 }
 
-// Makes the boxes that display stats for the senators
-function makeStatsBoxes(entries, observer) {
-    entries.forEach((entry) => {
-        if (entry.intersectionRatio === 1) {
-            let delay = 1500;
-            for (let stat of senatorStats) {
+// // Makes the boxes that display stats for the senators
+// function makeStatsBoxes(entries, observer) {
+//     entries.forEach((entry) => {
+//         if (entry.intersectionRatio === 1) {
+//             let delay = 1500;
+//             for (let stat of senatorStats) {
 
-                // Create div for the stat to sit in
-                let box = document.createElement("div");
-                box.classList.add("stat-box");
-                box.style.height = "0px";
-                box.style.width = "0px";
-                box.style.margin = "12.5vw";
-                // Create the text for the value and title of the stat
-                let statValue = document.createElement("h2");
-                statValue.classList.add("stat-box-stat");
-                statValue.innerHTML = stat["stat"];
-                let statTitle = document.createElement("p");
-                statTitle.classList.add("stat-box-title");
-                statTitle.innerHTML = stat["name"];
+//                 // Create div for the stat to sit in
+//                 let box = document.createElement("div");
+//                 box.classList.add("stat-box");
+//                 box.style.height = "0px";
+//                 box.style.width = "0px";
+//                 box.style.margin = "12.5vw";
+//                 // Create the text for the value and title of the stat
+//                 let statValue = document.createElement("h2");
+//                 statValue.classList.add("stat-box-stat");
+//                 statValue.innerHTML = stat["stat"];
+//                 let statTitle = document.createElement("p");
+//                 statTitle.classList.add("stat-box-title");
+//                 statTitle.innerHTML = stat["name"];
 
-                // place the boxes in 
-                let container = document.getElementById("stat-box-container");
-                container = container.appendChild(box);
+//                 // place the boxes in 
+//                 let container = document.getElementById("stat-box-container");
+//                 container = container.appendChild(box);
 
-                setTimeout(() => {
-                    container.style = null;
-                    setTimeout(() => {
-                        container.appendChild(statValue).after(statTitle);
-                    }, 900);
-                }, delay);
-                delay += 1500;
+//                 setTimeout(() => {
+//                     container.style = null;
+//                     setTimeout(() => {
+//                         container.appendChild(statValue).after(statTitle);
+//                     }, 900);
+//                 }, delay);
+//                 delay += 1500;
 
-                observer.unobserve(entry.target);
+//                 observer.unobserve(entry.target);
 
-            }
-        }
-    });
+//             }
+//         }
+//     });
 
-}
+// }
 
 // function to create senior senator list 
 // need to group by party 
@@ -313,7 +313,7 @@ function extractSeniorSenators(seniorData) {
         if (seniorSenatorInfo.leadership_title) {
             let seniorSenator = {
                 title: seniorSenatorInfo.leadership_title,
-                name: seniorSenatorInfo.person.name.slice(0,-6),
+                name: seniorSenatorInfo.person.name.slice(0, -6),
                 party: seniorSenatorInfo.party,
             };
             seniorSenatorList.push(seniorSenator);
@@ -329,7 +329,7 @@ function makeSeniorList(seniorSenators) {
     for (const seniorSenator of seniorSenators) {
         let seniorSenatorEl = document.createElement("div");
         seniorSenatorEl.className = 'seniorSenator-box';
-        Object.keys(seniorSenator).forEach(function (key){
+        Object.keys(seniorSenator).forEach(function (key) {
             let fieldEl = document.createElement("div");
             fieldEl.setAttribute("class", `leader${key}`); //inner div name 
             fieldEl.innerText = seniorSenator[key];
@@ -577,9 +577,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         threshold: 1,
     };
 
-    let observer = new IntersectionObserver(makeStatsBoxes, options);
-    let target = document.getElementById("stat-box-container");
-    observer.observe(target);
+    // let observer = new IntersectionObserver(makeStatsBoxes, options);
+    // let target = document.getElementById("stat-box-container");
+    // observer.observe(target);
 });
 
 // Set the scrollY pos to 0 for use in the scroll event listener
