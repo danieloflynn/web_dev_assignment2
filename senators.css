@@ -294,10 +294,10 @@ div .stat-box-title {
 }
 
 /* End Filter Box Styling */
-.party-hide,
-.state-hide,
-.gender-hide,
-.rank-hide {
+div .party-hide,
+div .state-hide,
+div .gender-hide,
+div .rank-hide {
     display: none;
 }
 
