@@ -28,20 +28,25 @@ async function getData() {
 }
 
 // count senators by party
-// returns an object with party as key and count as value
+// takes in data object
+// returns an object with key:values as  party_name: count
 function countSenatorsByParty(data) {
-    let partyCount = {};
+    let partyCount = {}; //Count of each party
 
+    // Iterate through each senator in data
     for (let senator of data.objects) {
+        // Add party if doesn't exist already
         if (!partyCount[senator.party]) {
             partyCount[senator.party] = 0;
         }
+        // Increment number of senators of that party
         partyCount[senator.party] += 1;
     }
     return partyCount;
 }
 
-// This function will make the bar chart on top of the count boxes
+// This function will make the bar chart showing how many senators are in each party
+// Takes in party objecy where key is party name and value is count of that party
 function makeBarChart(partyObj) {
 
     // Get total senators
@@ -50,27 +55,28 @@ function makeBarChart(partyObj) {
         totalSenators += partyObj[key];
     }
 
-
-
     // loop that creates boxes for each party
-    // 
-    let delay = 2000;
-    for (let key in partyObj) {
+    let delay = 2000; //Delay before bar shoots up
+    for (let key in partyObj) { //iterate over all of the parties(keys)
+        // Create container for the bar
         let c = document.createElement("div")
         c.setAttribute("id", key + "-party");
         c.classList.add("bar-container")
+        // Create the bar
         let el = document.createElement("div");
         el.classList.add("bar");
         el.classList.add(key);
-        el.setAttribute("style", "width: 0");
+        el.setAttribute("style", "width: 0"); //set the width to 0 initially, bar will grow to proportional size after delay time
         document.getElementById("bar-chart").appendChild(c).appendChild(el);
+        // This function will set the width of the bar
         function setWidth() {
             el.setAttribute("style", "width: " + partyObj[key] * 100 / totalSenators.toString() + "vw");
         }
+        // Set timeout
         setTimeout(setWidth, delay);
 
 
-        // Make the count box
+        // Make the count div
         let cb = document.createElement("div");
         cb.classList.add("count");
 
@@ -90,12 +96,11 @@ function makeBarChart(partyObj) {
 // making boxes for each senator for full list
 // pulls the following info from data letiable :
 // name, party, state, gender, rank, office, DOB, start date, twitter ID, youtube ID, website link
-
 function extractSenatorInfomation(senatorData) {
-
-
+    // This list will contain all of the senator information
     let senatorInformationList = [];
 
+    // Iterate through each senator
     for (let senatorInformation of senatorData) {
         let senator = {
             img: `https://www.govtrack.us/static/legislator-photos/${senatorInformation.person.link.slice(-6)}-200px.jpeg`,
@@ -128,11 +133,14 @@ function extractSenatorInfomation(senatorData) {
     return senatorInformationList;
 }
 
-// Search function for states
+// Function for filtering the states in filter dropdown using search bar
 // Adds "hide" class to any list items that don't match search
 function searchStates() {
+    // get the value from the search bar
     let search = document.getElementById("state-search-bar").value.toUpperCase();
+    // Search dropdown
     let el = document.getElementById("state-dropdown");
+    // Iterate over every state in the filter dropdown
     for (let option of el.children) {
         let id = option.getAttribute('id');
         if (id != "state-search" && id != "state-all" && (id.toUpperCase().indexOf(search) == -1)) {
@@ -262,7 +270,6 @@ function toggleExtraInfo(senatorEl) {
 
 // get all the filter names
 // Returns a set object with all party names
-// TODO: Change this to take the set from senatorList instead of the raw data
 function getFilterNames(data) {
 
     return {
@@ -302,7 +309,6 @@ function insertFilterOptions(filters) {
 
 
     // Insert options
-    // TODO: put the for loop into the makeFilterBox function
 
     for (let party of filters["party"]) {
         makeFilterBox(party, "party");
@@ -493,8 +499,6 @@ document.addEventListener("scroll", (event) => {
             makeBarChart(partyObj);
             barChartCreated = true;
         }
-
-
 
     }
 
