@@ -116,6 +116,13 @@ function extractSenatorInfomation(senatorData) {
             age: (Math.abs(new Date(senatorInformation.person.birthday) - new Date()) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(2),
             firstname: senatorInformation.person.firstname
         };
+    
+    //filter null values
+    for (let key in senator){
+        if (senator[key] == null){
+            delete senator[key];
+        }
+    }
 
         senatorInformationList.push(senator)
     }
