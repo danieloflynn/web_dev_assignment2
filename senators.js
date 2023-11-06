@@ -110,7 +110,7 @@ function extractSenatorInfomation(senatorData) {
             ["Twitter ID: "]: senatorInformation.person.twitterid,
             ["Youtube ID: "]: senatorInformation.person.youtubeid,
             websiteLink: senatorInformation.website,
-            ["osid"]: senatorInformation.person.osid,
+            osid: senatorInformation.person.osid,
             ["age"]: (Math.abs(new Date(senatorInformation.person.birthday) - new Date()) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(2),
             firstname: senatorInformation.person.firstname
         };
