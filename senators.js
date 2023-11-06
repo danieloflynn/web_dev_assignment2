@@ -80,8 +80,6 @@ function makeBarChart(partyObj) {
         cn.innerHTML = partyObj[key] + " " + key;
 
 
-
-
         // Add the count box to the count box container, insert the count number into count box, add party after count box
         c.appendChild(cb).appendChild(cn);
         delay += 1500
@@ -145,30 +143,30 @@ function makeSenatorList(senators) {
     var senatorListEl = document.getElementById("senators")
 
     for (let senator of senators) {
-        var senatorEl = document.createElement("div"); //<div class ="senator-box"></div>
+        let senatorEl = document.createElement("div"); //<div class ="senator-box"></div>
         senatorEl.setAttribute("id", senator.osid);
         senatorEl.setAttribute("class", "senator-box");
         senatorEl.setAttribute("onclick", "toggleExtraInfo(this)"); //on click for the extra info dropdown 
 
-        var extraInfoEl = document.createElement("div");  //creating extra_info div for the drop down section
+        let mainInfoEl = document.createElement("div");
+        mainInfoEl.setAttribute("class", "info");
+
+        let extraInfoEl = document.createElement("div");  //creating extra_info div for the drop down section
         extraInfoEl.setAttribute("class", "extra_info");
         extraInfoEl.style.display = "none"; //hide div first
 
-
-        var senatorMainEl = document.createElement("div"); //main_info div
+        let senatorMainEl = document.createElement("div"); //main_info div
         senatorMainEl.setAttribute("class", "main_info");
 
         Object.keys(senator).forEach(function (key) {
             let fieldEl = document.createElement("div"); //<div></div>
 
             // fieldEl.innerText = senator[key]; //<div>Tara</div>
-
-
             //creating website links
             if (key === "websiteLink") {
                 let linkEl = document.createElement('a');
                 linkEl.setAttribute('href', senator[key]);
-                linkEl.setAttribute('target', '_blank')
+                linkEl.setAttribute('target', '_blank');
                 linkEl.textContent = 'Visit Website';
                 fieldEl.appendChild(linkEl);
             } else if (key === "img") {
@@ -185,18 +183,19 @@ function makeSenatorList(senators) {
             // if info not key it is added to extra_info
             if (key !== "name" && key !== "party" && key !== "state" && key !== "img" && key !== "gender") {
                 extraInfoEl.appendChild(fieldEl);
-                senatorEl.appendChild(extraInfoEl);
             }
             else if (key === "name" || key === "party" || key === "state" || key === "gender") {
-                console.log("fine")
                 senatorMainEl.appendChild(fieldEl);
-                senatorEl.appendChild(senatorMainEl);
             }
             else {
                 senatorEl.appendChild(fieldEl); //<div class ="senator-box"><div>Tara</div></div>
             }
-        })
-        senatorListEl.appendChild(senatorEl)
+        });
+        senatorEl.appendChild(mainInfoEl);
+        mainInfoEl.appendChild(senatorMainEl);
+        mainInfoEl.appendChild(extraInfoEl);
+        senatorListEl.appendChild(senatorEl);
+
     }
 
 }
@@ -263,47 +262,6 @@ function getSenatorStats(senators) {
     ]
 }
 
-// // Makes the boxes that display stats for the senators
-// function makeStatsBoxes(entries, observer) {
-//     entries.forEach((entry) => {
-//         if (entry.intersectionRatio === 1) {
-//             let delay = 1500;
-//             for (let stat of senatorStats) {
-
-//                 // Create div for the stat to sit in
-//                 let box = document.createElement("div");
-//                 box.classList.add("stat-box");
-//                 box.style.height = "0px";
-//                 box.style.width = "0px";
-//                 box.style.margin = "12.5vw";
-//                 // Create the text for the value and title of the stat
-//                 let statValue = document.createElement("h2");
-//                 statValue.classList.add("stat-box-stat");
-//                 statValue.innerHTML = stat["stat"];
-//                 let statTitle = document.createElement("p");
-//                 statTitle.classList.add("stat-box-title");
-//                 statTitle.innerHTML = stat["name"];
-
-//                 // place the boxes in 
-//                 let container = document.getElementById("stat-box-container");
-//                 container = container.appendChild(box);
-
-//                 setTimeout(() => {
-//                     container.style = null;
-//                     setTimeout(() => {
-//                         container.appendChild(statValue).after(statTitle);
-//                     }, 900);
-//                 }, delay);
-//                 delay += 1500;
-
-//                 observer.unobserve(entry.target);
-
-//             }
-//         }
-//     });
-
-// }
-
 // function to create senior senator list 
 // need to group by party 
 function extractSeniorSenators(seniorData) {
@@ -333,6 +291,9 @@ function makeSeniorList(seniorSenators) {
             let fieldEl = document.createElement("div");
             fieldEl.setAttribute("class", `leader${key}`); //inner div name 
             fieldEl.innerText = seniorSenator[key];
+            if (key === "party") {
+                fieldEl.innerText = "(" + fieldEl.innerText + ")";
+            }
             seniorSenatorEl.appendChild(fieldEl);
         })
         seniorSenatorListEl.appendChild(seniorSenatorEl);
