@@ -108,7 +108,8 @@ function extractSenatorInfomation(senatorData) {
             party: senatorInformation.party,
             state: senatorInformation.state,
             gender: senatorInformation.person.gender_label,
-            ["Rank: "]: senatorInformation.senator_rank_label,
+            rank: senatorInformation.senator_rank_label, //This is needed for the filter function
+            ["Rank: "]: senatorInformation.senator_rank_label, //This has the key in a more displayable format
             ["Office: "]: senatorInformation.office,
             ["DOB: "]: senatorInformation.person.birthday,
             ["Start Date: "]: senatorInformation.startdate,
@@ -196,7 +197,7 @@ function makeSenatorList(senators) {
 
             //if key not img or extra info, adding to main_info div  
             // if info not key it is added to extra_info
-            if (senator[key] === undefined || ["age", "osid", "firstname"].includes(key)) {
+            if (senator[key] === undefined || ["age", "osid", "firstname", "rank"].includes(key)) {
                 // Do nothing
             }
             else if (!["name", "party", "state", "img", "gender"].includes(key)) {
