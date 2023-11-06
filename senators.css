@@ -17,15 +17,10 @@ header h1 {
     color: black;
 }
 
-
-
 /* End global styles */
 
 /* Start title page styling */
 #title-page {
-    /* position: absolute; */
-    /* left: 0;
-    top: 0; */
     padding: 0;
     margin: 0;
     height: 100vh;
@@ -33,10 +28,6 @@ header h1 {
     background-color: white;
     transition-duration: 2s;
     z-index: 1;
-    /* display: flex;
-    flex-direction: column;
-    justify-items: flex-start;
-    align-items: center; */
 }
 
 #title {
@@ -157,19 +148,6 @@ div .stat-box-title {
     justify-content: space-between;
 }
 
-
-/* #Republican-party {
-    background-color: lightcoral;
-}
-
-#Democrat-party {
-    background-color: lightblue;
-}
-
-#Independent-party {
-    background-color: blanchedalmond;
-} */
-
 .count {
     display: grid;
     flex-direction: column;
@@ -194,18 +172,13 @@ div .stat-box-title {
 
 /* End count box styling */
 
-/* Start Senator styling */
-
-
-/* End Senator styling */
-
 /* Start Filter Box Styling */
 
 #filters {
     display: flex;
     flex-direction: column;
     min-height: 100px;
-    width: 150px;
+    width: 180px;
     border: 2px solid black;
     margin: 10px;
 }
@@ -247,6 +220,7 @@ div .stat-box-title {
 .filter-text p {
     margin: 0;
     text-align: left;
+    font-size: 0.8em;
 }
 
 .filter-arrow {
@@ -271,7 +245,6 @@ div .stat-box-title {
     justify-content: space-between;
     padding: 5px 5px;
     margin: 0;
-    /* text-align: left; */
 }
 
 .dropdown li p {
@@ -294,6 +267,8 @@ div .stat-box-title {
 }
 
 /* End Filter Box Styling */
+
+/* Party hide classes */
 div .party-hide,
 div .state-hide,
 div .gender-hide,
@@ -329,13 +304,11 @@ div .rank-hide {
 }
 
 .leadername {
-    /* flex: 1; */
     margin-bottom: 10px;
 
 }
 
 .leaderparty {
-    /* flex: 1; */
     margin-bottom: 10px;
     text-align: left;
     padding-left: 3px;
@@ -399,8 +372,6 @@ div .rank-hide {
 }
 
 .extra_info {
-    /* width: 100%; */
-    /* text-align: center; */
     margin: 10px;
     margin-top: 0px;
 }
