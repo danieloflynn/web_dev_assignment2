@@ -212,68 +212,6 @@ function makeSenatorList(senators) {
 
 }
 
-
-// Function to get senator stats
-// Returns dictionary of senator stats
-function getSenatorStats(senators) {
-    let avgAge = 0; //Average age
-    let percentFemale = 0; //percent of senators that are women
-    let names = {} //Names and how often they occur
-    let hasTwitter = 0; //percent of senators that have twitter
-
-    for (let key in senators) {
-        avgAge += +senators[key].age;
-        if (senators[key].gender === "Female") {
-            percentFemale += 1;
-        }
-        if (senators[key].firstname in names) {
-            names[senators[key].firstname] += 1;
-        } else {
-            names[senators[key].firstname] = 1;
-        }
-        if (senators[key].twitterID != null) {
-            hasTwitter += 1;
-        }
-    }
-
-    avgAge /= senators.length;
-    percentFemale /= senators.length / 100;
-    hasTwitter /= senators.length / 100;
-
-    let name = "";
-    let count = 0;
-
-    for (let key in names) {
-        if (names[key] > count) {
-            name = key;
-            count = names[key];
-        }
-    }
-
-    return [
-        {
-            "name": "Average age",
-            "stat": Math.round(avgAge)
-        },
-        {
-            "name": "Most common name",
-            "stat": name
-        },
-        {
-            "name": "of Senators are female",
-            "stat": `${percentFemale}%`
-        },
-        {
-            "name": "Senior Senators",
-            "stat": seniorSenators.length
-        },
-        {
-            "name": "Have twitter",
-            "stat": `${hasTwitter}%`
-        }
-    ]
-}
-
 // function to create senior senator list 
 // need to group by party 
 function extractSeniorSenators(seniorData) {
@@ -347,7 +285,7 @@ function insertFilterOptions(filters) {
         let el = document.createElement("li");
         el.setAttribute('id', name);
         el.classList.add("filter-list");
-        el.onclick = () => { toggleSelection(grouping, name) };
+        el.onclick = () => toggleSelection(grouping, name);
         // create p tag for the text
         let p = document.createElement("p");
         p.innerHTML = name;
@@ -494,26 +432,10 @@ function toggleSelection(grouping, item) {
 }
 // End Filter Manipulation Functions
 
-// Start title page scroll functions
-
-// Gets scroll direction
-// Returns "Down" if scroll direction is down, "Up" if scroll direction is up
-function getScrollDirection(scrollY) {
-    if (scrollY > lastScrollY) {
-        return "Down"
-    } else {
-        return "Up"
-    }
-}
-
-
-// End title page scroll functions
-
 // Initialize filters and senat here so they are inside the scope of all the above functions
 let filters;
 let senators;
 let partyObj;
-let senatorStats;
 let seniorSenators;
 
 // Add event listener allows HTML to be loaded first before JS starts. Best practice
@@ -539,31 +461,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     seniorSenators = extractSeniorSenators(data.objects);
     makeSeniorList(seniorSenators);
 
-
-    // Get senator stats
-    senatorStats = getSenatorStats(senators);
-
-    // Create intersection observer
-    let options = {
-        root: null,
-        rootMargin: "0px",
-        threshold: 1,
-    };
-
-    // let observer = new IntersectionObserver(makeStatsBoxes, options);
-    // let target = document.getElementById("stat-box-container");
-    // observer.observe(target);
 });
 
 // Set the scrollY pos to 0 for use in the scroll event listener
-let lastScrollY = 0;
-let scrolling = false;
-let titlePage = document.getElementById("title-page");
-let titleHeight = titlePage.scrollHeight;
-let capitol = document.getElementById("capitol");
-let title = document.getElementById("title");
 let barChartCreated = false;
 let titleScrolled = false;
+let titlePage = document.getElementById("title-page");
+let titleHeight = titlePage.scrollHeight;
 
 // Scroll event listener
 document.addEventListener("scroll", (event) => {
@@ -572,6 +476,8 @@ document.addEventListener("scroll", (event) => {
     if (scrollY < titleHeight / 4 && !titleScrolled) {
         titleScrolled = true;
         // Move the title up and logo to the side
+        let capitol = document.getElementById("capitol");
+        let title = document.getElementById("title");
         titlePage.style.height = "15vh";
         titlePage.style.position = "sticky";
         titlePage.style.top = "0";
@@ -591,8 +497,6 @@ document.addEventListener("scroll", (event) => {
 
 
     }
-
-    lastScrollY = scrollY;
 
 });
 

@@ -355,8 +355,10 @@ div .rank-hide {
 
 
 #senators {
-    min-width: 70%;
     border-style: solid;
+    margin-top: 10px;
+    margin-right: 10px;
+
 }
 
 #senator-list {
