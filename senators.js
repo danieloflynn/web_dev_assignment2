@@ -101,21 +101,28 @@ function extractSenatorInfomation(senatorData) {
     for (let senatorInformation of senatorData) {
         let senator = {
             img: `https://www.govtrack.us/static/legislator-photos/${senatorInformation.person.link.slice(-6)}-200px.jpeg`,
-            name: senatorInformation.person.name.slice(0,-6),
-            party: senatorInformation.party,
-            state: senatorInformation.state,
-            gender: senatorInformation.person.gender_label,
-            rank: senatorInformation.senator_rank_label,
-            office: senatorInformation.office,
-            DOB: senatorInformation.person.birthday,
-            startDate: senatorInformation.startdate,
-            twitterID: senatorInformation.person.twitterid,
-            youtubeID: senatorInformation.person.youtubeid,
-            websiteLink: senatorInformation.website,
-            osid: senatorInformation.person.osid,
-            age: (Math.abs(new Date(senatorInformation.person.birthday) - new Date()) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(2),
-            firstname: senatorInformation.person.firstname
+            name: `Name: ${senatorInformation.person.name.slice(0,-6)}`,
+            party: `Party: ${senatorInformation.party}`,
+            state: `State: ${senatorInformation.state}`,
+            gender: `Gender: ${senatorInformation.person.gender_label}`,
+            rank: `Rank: ${senatorInformation.senator_rank_label}`,
+            office: `Office: ${senatorInformation.extra.office}`,
+            DOB: `Date of Birth: ${senatorInformation.person.birthday}`,
+            startDate: `Start Date: ${senatorInformation.startdate}`,
+            twitterID: `twitterID: ${senatorInformation.person.twitterid}`,
+            youtubeID: `youtubeID: ${senatorInformation.person.youtubeid}`,
+            websiteLink: `website Link: ${senatorInformation.website}`,
+            osid: `osid: ${senatorInformation.person.osid}`,
+            age: `Age: ${(Math.abs(new Date(senatorInformation.person.birthday) - new Date()) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(2)}`,
+            firstname: `First name: ${senatorInformation.person.firstname}`
         };
+    
+    //filter null values
+    for (let key in senator){
+        if (senator[key] == null){
+            delete senator[key];
+        }
+    }
 
         senatorInformationList.push(senator)
     }
