@@ -103,15 +103,15 @@ function extractSenatorInfomation(senatorData) {
             party: senatorInformation.party,
             state: senatorInformation.state,
             gender: senatorInformation.person.gender_label,
-            rank: senatorInformation.senator_rank_label,
-            office: senatorInformation.office,
+            ["Rank: "]: senatorInformation.senator_rank_label,
+            ["Office: "]: senatorInformation.office,
             DOB: senatorInformation.person.birthday,
-            startDate: senatorInformation.startdate,
+            ["Start Date: "]: senatorInformation.startdate,
             twitterID: senatorInformation.person.twitterid,
             youtubeID: senatorInformation.person.youtubeid,
             websiteLink: senatorInformation.website,
-            osid: senatorInformation.person.osid,
-            age: (Math.abs(new Date(senatorInformation.person.birthday) - new Date()) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(2),
+            ["osid"]: senatorInformation.person.osid,
+            ["age"]: (Math.abs(new Date(senatorInformation.person.birthday) - new Date()) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(2),
             firstname: senatorInformation.person.firstname
         };
 
@@ -167,27 +167,31 @@ function makeSenatorList(senators) {
                 let linkEl = document.createElement('a');
                 linkEl.setAttribute('href', senator[key]);
                 linkEl.setAttribute('target', '_blank');
-                linkEl.textContent = 'Visit Website';
+                linkEl.textContent = 'Official Website';
                 fieldEl.appendChild(linkEl);
             } else if (key === "img") {
                 let img = document.createElement('img');
                 img.src = senator[key];
                 fieldEl.appendChild(img);
             } else {
-                fieldEl.innerText = senator[key];
+                fieldEl.innerText = key + " " + senator[key];
             }
 
             fieldEl.setAttribute("class", key); //adds class to the inner div
 
             //if key not img or extra info, adding to main_info div  
             // if info not key it is added to extra_info
-            if (key !== "name" && key !== "party" && key !== "state" && key !== "img" && key !== "gender") {
+            if (senator[key] === undefined || ["age", "osid", "firstname"].includes(key)) {
+                // Do nothing
+            }
+            else if (!["name", "party", "state", "img", "gender"].includes(key)) {
                 extraInfoEl.appendChild(fieldEl);
             }
-            else if (key === "name" || key === "party" || key === "state" || key === "gender") {
+            else if (key !== "img") {
                 senatorMainEl.appendChild(fieldEl);
             }
             else {
+                fieldEl.innerText = key + " " + senator[key];
                 senatorEl.appendChild(fieldEl); //<div class ="senator-box"><div>Tara</div></div>
             }
         });
