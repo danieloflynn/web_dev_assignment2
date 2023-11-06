@@ -31,33 +31,33 @@
         </div> -->
     </div>
     <div id="leadership">
-        <h1 id="senator-list">List of Senators with Leadership Roles</h1>
+        <h1 id="senator-list-leadership">List of Senators with Leadership Roles</h1>
         <!-- <div class="seniorSenator-box"> </div> -->
         <!-- adding senior senators here  -->
     </div>
     <div id="senator-container">
         <div id="filters">
             <h3 id="filter-title">Filters</h3>
-            <button class="filter-box" id="party-filter" onclick="toggleDropdown('party-dropdown')">
+            <div class="filter-box" id="party-filter" onclick="toggleDropdown('party-dropdown')">
                 <div class="filter-text">
                     <h3>Party</h3>
                     <p id="party-filter-text">Selected: All</p>
                 </div>
                 <div class="filter-arrow"><i class="fa fa-caret-down"></i></div>
-            </button>
+            </div>
             <ul id="party-dropdown" class="dropdown hide">
                 <li class="filter-list" id="party-all" onclick="selectAll('party')">
                     <p>All</p>
                     <p class="check-mark" id="party-all-check">&check;</p>
                 </li>
             </ul>
-            <button class="filter-box" id="state-filter" onclick="toggleDropdown('state-dropdown')">
+            <div class="filter-box" id="state-filter" onclick="toggleDropdown('state-dropdown')">
                 <div class="filter-text">
                     <h3>State</h3>
                     <p id="state-filter-text">Selected: All</p>
                 </div>
                 <div class="filter-arrow"><i class="fa fa-caret-down"></i></div>
-            </button>
+            </div>
             <ul id="state-dropdown" class="dropdown hide">
                 <li class="filter-list" id="state-search"><input id="state-search-bar" type="text"
                         onkeyup="searchStates()"></li>
@@ -66,13 +66,13 @@
                     <p class="check-mark" id="state-all-check">&check;</p>
                 </li>
             </ul>
-            <button class="filter-box" id="gender-filter" onclick="toggleDropdown('gender-dropdown')">
+            <div class="filter-box" id="gender-filter" onclick="toggleDropdown('gender-dropdown')">
                 <div class="filter-text">
                     <h3>Gender</h3>
                     <p id="gender-filter-text">Selected: All</p>
                 </div>
                 <div class="filter-arrow"><i class="fa fa-caret-down"></i></div>
-            </button>
+            </div>
             <ul id="gender-dropdown" class="dropdown hide">
                 <li class="filter-list" id="gender-all" onclick="selectAll('gender')">
                     <p>All</p>
@@ -80,14 +80,13 @@
                 </li>
             </ul>
 
-            <button class="filter-box" id="party-filter" onclick="toggleDropdown('rank-dropdown')">
+            <div class="filter-box" id="rank-filter" onclick="toggleDropdown('rank-dropdown')">
                 <div class="filter-text">
                     <h3>Rank</h3>
-                    <!-- TODO: have selected dynamically change via JS -->
                     <p id="rank-filter-text">Selected: All</p>
                 </div>
                 <div class="filter-arrow"><i class="fa fa-caret-down"></i></div>
-            </button>
+            </div>
             <ul id="rank-dropdown" class="dropdown hide">
                 <li class="filter-list" id="rank-all" onclick="selectAll('rank')">
                     <p>All</p>
@@ -103,14 +102,10 @@
 
         </div>
     </div>
-    </div>
-
     <footer></footer>
 
 
     <script src="./senators.js"></script>
-
-    </script>
 
 </body>
 
