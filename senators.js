@@ -105,10 +105,10 @@ function extractSenatorInfomation(senatorData) {
             gender: senatorInformation.person.gender_label,
             ["Rank: "]: senatorInformation.senator_rank_label,
             ["Office: "]: senatorInformation.office,
-            DOB: senatorInformation.person.birthday,
+            ["DOB: "]: senatorInformation.person.birthday,
             ["Start Date: "]: senatorInformation.startdate,
-            twitterID: senatorInformation.person.twitterid,
-            youtubeID: senatorInformation.person.youtubeid,
+            ["Twitter ID: "]: senatorInformation.person.twitterid,
+            ["Youtube ID: "]: senatorInformation.person.youtubeid,
             websiteLink: senatorInformation.website,
             ["osid"]: senatorInformation.person.osid,
             ["age"]: (Math.abs(new Date(senatorInformation.person.birthday) - new Date()) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(2),
@@ -192,14 +192,15 @@ function makeSenatorList(senators) {
                 // Do nothing
             }
             else if (!["name", "party", "state", "img", "gender"].includes(key)) {
+
                 extraInfoEl.appendChild(fieldEl);
             }
-            else if (key !== "img") {
-                senatorMainEl.appendChild(fieldEl);
+            else if (key === "img") {
+                senatorEl.appendChild(fieldEl);
             }
             else {
-                fieldEl.innerText = key + " " + senator[key];
-                senatorEl.appendChild(fieldEl); //<div class ="senator-box"><div>Tara</div></div>
+                fieldEl.innerText = senator[key];
+                senatorMainEl.appendChild(fieldEl); //<div class ="senator-box"><div>Tara</div></div>
             }
         });
         senatorEl.appendChild(mainInfoEl);
