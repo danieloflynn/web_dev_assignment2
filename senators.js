@@ -4,7 +4,7 @@ async function getData() {
     let json;
     try {
         // try block 
-        let data = await fetch("./senators.json");
+        let data = await fetch("./json/senators.json");
         // if not successful:
         if (data.ok) {
             json = await data.json(); //assign value don't declare, scoping was causing me heartfailure :) 
@@ -80,8 +80,6 @@ function makeBarChart(partyObj) {
         cn.innerHTML = partyObj[key] + " " + key;
 
 
-
-
         // Add the count box to the count box container, insert the count number into count box, add party after count box
         c.appendChild(cb).appendChild(cn);
         delay += 1500
@@ -101,28 +99,28 @@ function extractSenatorInfomation(senatorData) {
     for (let senatorInformation of senatorData) {
         let senator = {
             img: `https://www.govtrack.us/static/legislator-photos/${senatorInformation.person.link.slice(-6)}-200px.jpeg`,
-            name: `Name: ${senatorInformation.person.name.slice(0,-6)}`,
-            party: `Party: ${senatorInformation.party}`,
-            state: `State: ${senatorInformation.state}`,
-            gender: `Gender: ${senatorInformation.person.gender_label}`,
-            rank: `Rank: ${senatorInformation.senator_rank_label}`,
-            office: `Office: ${senatorInformation.extra.office}`,
-            DOB: `Date of Birth: ${senatorInformation.person.birthday}`,
-            startDate: `Start Date: ${senatorInformation.startdate}`,
-            twitterID: `twitterID: ${senatorInformation.person.twitterid}`,
-            youtubeID: `youtubeID: ${senatorInformation.person.youtubeid}`,
-            websiteLink: `website Link: ${senatorInformation.website}`,
-            osid: `osid: ${senatorInformation.person.osid}`,
-            age: `Age: ${(Math.abs(new Date(senatorInformation.person.birthday) - new Date()) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(2)}`,
-            firstname: `First name: ${senatorInformation.person.firstname}`
+            name: senatorInformation.person.name.slice(0, -6),
+            party: senatorInformation.party,
+            state: senatorInformation.state,
+            gender: senatorInformation.person.gender_label,
+            ["Rank: "]: senatorInformation.senator_rank_label,
+            ["Office: "]: senatorInformation.office,
+            ["DOB: "]: senatorInformation.person.birthday,
+            ["Start Date: "]: senatorInformation.startdate,
+            ["Twitter ID: "]: senatorInformation.person.twitterid,
+            ["Youtube ID: "]: senatorInformation.person.youtubeid,
+            websiteLink: senatorInformation.website,
+            osid: senatorInformation.person.osid,
+            ["age"]: (Math.abs(new Date(senatorInformation.person.birthday) - new Date()) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(2),
+            firstname: senatorInformation.person.firstname
         };
-    
-    //filter null values
-    for (let key in senator){
-        if (senator[key] == null){
-            delete senator[key];
+
+        //filter null values
+        for (let key in senator) {
+            if (senator[key] == null) {
+                delete senator[key];
+            }
         }
-    }
 
         senatorInformationList.push(senator)
     }
@@ -152,162 +150,65 @@ function makeSenatorList(senators) {
     var senatorListEl = document.getElementById("senators")
 
     for (let senator of senators) {
-        var senatorEl = document.createElement("div"); //<div class ="senator-box"></div>
+        let senatorEl = document.createElement("div"); //<div class ="senator-box"></div>
         senatorEl.setAttribute("id", senator.osid);
         senatorEl.setAttribute("class", "senator-box");
         senatorEl.setAttribute("onclick", "toggleExtraInfo(this)"); //on click for the extra info dropdown 
 
-        var extraInfoEl = document.createElement("div");  //creating extra_info div for the drop down section
+        let mainInfoEl = document.createElement("div");
+        mainInfoEl.setAttribute("class", "info");
+
+        let extraInfoEl = document.createElement("div");  //creating extra_info div for the drop down section
         extraInfoEl.setAttribute("class", "extra_info");
         extraInfoEl.style.display = "none"; //hide div first
-        
-        
-        var senatorMainEl = document.createElement("div"); //main_info div
+
+        let senatorMainEl = document.createElement("div"); //main_info div
         senatorMainEl.setAttribute("class", "main_info");
 
         Object.keys(senator).forEach(function (key) {
             let fieldEl = document.createElement("div"); //<div></div>
 
             // fieldEl.innerText = senator[key]; //<div>Tara</div>
-            
-            
             //creating website links
             if (key === "websiteLink") {
                 let linkEl = document.createElement('a');
                 linkEl.setAttribute('href', senator[key]);
-                linkEl.setAttribute('target', '_blank')
-                linkEl.textContent = 'Visit Website';
+                linkEl.setAttribute('target', '_blank');
+                linkEl.textContent = 'Official Website';
                 fieldEl.appendChild(linkEl);
             } else if (key === "img") {
                 let img = document.createElement('img');
                 img.src = senator[key];
                 fieldEl.appendChild(img);
             } else {
-                fieldEl.innerText = senator[key];
+                fieldEl.innerText = key + " " + senator[key];
             }
-            
+
             fieldEl.setAttribute("class", key); //adds class to the inner div
 
             //if key not img or extra info, adding to main_info div  
             // if info not key it is added to extra_info
-            if (key !== "name" && key !== "party" && key !== "state" && key !== "img" && key !== "gender") {
-                extraInfoEl.appendChild(fieldEl);
-                senatorEl.appendChild(extraInfoEl);
+            if (senator[key] === undefined || ["age", "osid", "firstname"].includes(key)) {
+                // Do nothing
             }
-            else if (key === "name" || key === "party" || key === "state" || key === "gender"){
-                console.log("fine")
-                senatorMainEl.appendChild(fieldEl);
-                senatorEl.appendChild(senatorMainEl);
+            else if (!["name", "party", "state", "img", "gender"].includes(key)) {
+
+                extraInfoEl.appendChild(fieldEl);
+            }
+            else if (key === "img") {
+                senatorEl.appendChild(fieldEl);
             }
             else {
-                senatorEl.appendChild(fieldEl); //<div class ="senator-box"><div>Tara</div></div>
+                fieldEl.innerText = senator[key];
+                senatorMainEl.appendChild(fieldEl); //<div class ="senator-box"><div>Tara</div></div>
             }
-        })
-        senatorListEl.appendChild(senatorEl)
+        });
+        senatorEl.appendChild(mainInfoEl);
+        mainInfoEl.appendChild(senatorMainEl);
+        mainInfoEl.appendChild(extraInfoEl);
+        senatorListEl.appendChild(senatorEl);
+
     }
-
-}
-
-
-// Function to get senator stats
-// Returns dictionary of senator stats
-function getSenatorStats(senators) {
-    let avgAge = 0; //Average age
-    let percentFemale = 0; //percent of senators that are women
-    let names = {} //Names and how often they occur
-    let hasTwitter = 0; //percent of senators that have twitter
-
-    for (let key in senators) {
-        avgAge += +senators[key].age;
-        if (senators[key].gender === "Female") {
-            percentFemale += 1;
-        }
-        if (senators[key].firstname in names) {
-            names[senators[key].firstname] += 1;
-        } else {
-            names[senators[key].firstname] = 1;
-        }
-        if (senators[key].twitterID != null) {
-            hasTwitter += 1;
-        }
-    }
-
-    avgAge /= senators.length;
-    percentFemale /= senators.length / 100;
-    hasTwitter /= senators.length / 100;
-
-    let name = "";
-    let count = 0;
-
-    for (let key in names) {
-        if (names[key] > count) {
-            name = key;
-            count = names[key];
-        }
-    }
-
-    return [
-        {
-            "name": "Average age",
-            "stat": Math.round(avgAge)
-        },
-        {
-            "name": "Most common name",
-            "stat": name
-        },
-        {
-            "name": "of Senators are female",
-            "stat": `${percentFemale}%`
-        },
-        {
-            "name": "Senior Senators",
-            "stat": seniorSenators.length
-        },
-        {
-            "name": "Have twitter",
-            "stat": `${hasTwitter}%`
-        }
-    ]
-}
-
-// Makes the boxes that display stats for the senators
-function makeStatsBoxes(entries, observer) {
-    entries.forEach((entry) => {
-        if (entry.intersectionRatio === 1) {
-            let delay = 1500;
-            for (let stat of senatorStats) {
-
-                // Create div for the stat to sit in
-                let box = document.createElement("div");
-                box.classList.add("stat-box");
-                box.style.height = "0px";
-                box.style.width = "0px";
-                box.style.margin = "12.5vw";
-                // Create the text for the value and title of the stat
-                let statValue = document.createElement("h2");
-                statValue.classList.add("stat-box-stat");
-                statValue.innerHTML = stat["stat"];
-                let statTitle = document.createElement("p");
-                statTitle.classList.add("stat-box-title");
-                statTitle.innerHTML = stat["name"];
-
-                // place the boxes in 
-                let container = document.getElementById("stat-box-container");
-                container = container.appendChild(box);
-
-                setTimeout(() => {
-                    container.style = null;
-                    setTimeout(() => {
-                        container.appendChild(statValue).after(statTitle);
-                    }, 900);
-                }, delay);
-                delay += 1500;
-
-                observer.unobserve(entry.target);
-
-            }
-        }
-    });
 
 }
 
@@ -320,7 +221,7 @@ function extractSeniorSenators(seniorData) {
         if (seniorSenatorInfo.leadership_title) {
             let seniorSenator = {
                 title: seniorSenatorInfo.leadership_title,
-                name: seniorSenatorInfo.person.name.slice(0,-6),
+                name: seniorSenatorInfo.person.name.slice(0, -6),
                 party: seniorSenatorInfo.party,
             };
             seniorSenatorList.push(seniorSenator);
@@ -336,10 +237,13 @@ function makeSeniorList(seniorSenators) {
     for (const seniorSenator of seniorSenators) {
         let seniorSenatorEl = document.createElement("div");
         seniorSenatorEl.className = 'seniorSenator-box';
-        Object.keys(seniorSenator).forEach(function (key){
+        Object.keys(seniorSenator).forEach(function (key) {
             let fieldEl = document.createElement("div");
             fieldEl.setAttribute("class", `leader${key}`); //inner div name 
             fieldEl.innerText = seniorSenator[key];
+            if (key === "party") {
+                fieldEl.innerText = "(" + fieldEl.innerText + ")";
+            }
             seniorSenatorEl.appendChild(fieldEl);
         })
         seniorSenatorListEl.appendChild(seniorSenatorEl);
@@ -381,7 +285,7 @@ function insertFilterOptions(filters) {
         let el = document.createElement("li");
         el.setAttribute('id', name);
         el.classList.add("filter-list");
-        el.onclick = () => { toggleSelection(grouping, name) };
+        el.onclick = () => toggleSelection(grouping, name);
         // create p tag for the text
         let p = document.createElement("p");
         p.innerHTML = name;
@@ -528,26 +432,10 @@ function toggleSelection(grouping, item) {
 }
 // End Filter Manipulation Functions
 
-// Start title page scroll functions
-
-// Gets scroll direction
-// Returns "Down" if scroll direction is down, "Up" if scroll direction is up
-function getScrollDirection(scrollY) {
-    if (scrollY > lastScrollY) {
-        return "Down"
-    } else {
-        return "Up"
-    }
-}
-
-
-// End title page scroll functions
-
 // Initialize filters and senat here so they are inside the scope of all the above functions
 let filters;
 let senators;
 let partyObj;
-let senatorStats;
 let seniorSenators;
 
 // Add event listener allows HTML to be loaded first before JS starts. Best practice
@@ -573,31 +461,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     seniorSenators = extractSeniorSenators(data.objects);
     makeSeniorList(seniorSenators);
 
-
-    // Get senator stats
-    senatorStats = getSenatorStats(senators);
-
-    // Create intersection observer
-    let options = {
-        root: null,
-        rootMargin: "0px",
-        threshold: 1,
-    };
-
-    let observer = new IntersectionObserver(makeStatsBoxes, options);
-    let target = document.getElementById("stat-box-container");
-    observer.observe(target);
 });
 
 // Set the scrollY pos to 0 for use in the scroll event listener
-let lastScrollY = 0;
-let scrolling = false;
-let titlePage = document.getElementById("title-page");
-let titleHeight = titlePage.scrollHeight;
-let capitol = document.getElementById("capitol");
-let title = document.getElementById("title");
 let barChartCreated = false;
 let titleScrolled = false;
+let titlePage = document.getElementById("title-page");
+let titleHeight = titlePage.scrollHeight;
 
 // Scroll event listener
 document.addEventListener("scroll", (event) => {
@@ -606,6 +476,8 @@ document.addEventListener("scroll", (event) => {
     if (scrollY < titleHeight / 4 && !titleScrolled) {
         titleScrolled = true;
         // Move the title up and logo to the side
+        let capitol = document.getElementById("capitol");
+        let title = document.getElementById("title");
         titlePage.style.height = "15vh";
         titlePage.style.position = "sticky";
         titlePage.style.top = "0";
@@ -625,8 +497,6 @@ document.addEventListener("scroll", (event) => {
 
 
     }
-
-    lastScrollY = scrollY;
 
 });
 

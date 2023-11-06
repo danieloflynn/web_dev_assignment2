@@ -294,10 +294,10 @@ div .stat-box-title {
 }
 
 /* End Filter Box Styling */
-.party-hide,
-.state-hide,
-.gender-hide,
-.rank-hide {
+div .party-hide,
+div .state-hide,
+div .gender-hide,
+div .rank-hide {
     display: none;
 }
 
@@ -308,6 +308,7 @@ div .stat-box-title {
     border-style: solid;
     width: 60%;
     margin: auto;
+    margin-bottom: 5px;
 }
 
 .seniorSenator-box {
@@ -319,7 +320,7 @@ div .stat-box-title {
 
 }
 
-.leadertitle {    
+.leadertitle {
     font-weight: bold;
     flex-basis: 100%;
     margin-bottom: 10px;
@@ -330,16 +331,16 @@ div .stat-box-title {
 .leadername {
     /* flex: 1; */
     margin-bottom: 10px;
-    
+
 }
 
 .leaderparty {
     /* flex: 1; */
     margin-bottom: 10px;
     text-align: left;
-    padding-left: 10px;
+    padding-left: 3px;
 }
-    
+
 
 
 /* End Senior Senator List Styling */
@@ -354,8 +355,11 @@ div .stat-box-title {
 
 
 #senators {
-    width: 70%;
     border-style: solid;
+    margin-top: 10px;
+    margin-right: 10px;
+    width: calc(100vw - 200px);
+
 }
 
 #senator-list {
@@ -364,24 +368,32 @@ div .stat-box-title {
 
 .senator-box {
     margin-top: 10px;
-    border-style:groove;
+    margin-left: 5px;
+    margin-right: 5px;
+    border-style: groove;
     display: flex;
     flex-wrap: wrap;
-    width: 100%;
-    
+
 }
 
 .senator-box:hover {
     background-color: lightgray;
     cursor: pointer;
 }
-.senator-box .img{
+
+.senator-box .img {
     max-width: 200px
 }
 
-.main_info { 
+.img img {
+    margin: 5px;
+    border-radius: 3px;
+}
+
+.main_info {
     min-width: 40%;
     margin: 10px;
+    margin-bottom: 0;
     /* text-align: center; */
 
 }
@@ -390,6 +402,7 @@ div .stat-box-title {
     /* width: 100%; */
     /* text-align: center; */
     margin: 10px;
+    margin-top: 0px;
 }
 
 
