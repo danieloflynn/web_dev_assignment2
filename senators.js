@@ -115,6 +115,13 @@ function extractSenatorInfomation(senatorData) {
             firstname: senatorInformation.person.firstname
         };
 
+        //filter null values
+        for (let key in senator) {
+            if (senator[key] == null) {
+                delete senator[key];
+            }
+        }
+
         senatorInformationList.push(senator)
     }
     senatorInformationList.sort((a, b) => a.party.localeCompare(b.party));
