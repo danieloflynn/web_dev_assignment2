@@ -17,6 +17,10 @@ header h1 {
     color: black;
 }
 
+h2 {
+    font-size: 1em;
+}
+
 /* End global styles */
 
 /* Start title page styling */
@@ -62,13 +66,6 @@ header h1 {
 .bar-container {
     display: flex;
     justify-content: flex-start;
-}
-
-
-#stats2 {
-    background-color: white;
-    /* height: 90vh; */
-    width: 100vw;
 }
 
 #stat-box-container {
@@ -152,9 +149,6 @@ div .stat-box-title {
     display: grid;
     flex-direction: column;
     align-items: center;
-    /* width: 300px;
-    height: 110px; */
-
     border-radius: 3px;
 }
 
@@ -210,7 +204,7 @@ div .stat-box-title {
     justify-content: space-between;
 }
 
-.filter-text h3 {
+.filter-text h2 {
     margin: 0;
     padding-left: 0;
     padding-right: 20px;
@@ -269,6 +263,7 @@ div .stat-box-title {
 /* End Filter Box Styling */
 
 /* Party hide classes */
+/* We need multiple classes of the same as all 4 classes can be applied to the same element at the same time (removes complex js filtering logic) */
 div .party-hide,
 div .state-hide,
 div .gender-hide,
@@ -361,6 +356,30 @@ div .rank-hide {
 .img img {
     margin: 5px;
     border-radius: 3px;
+}
+
+@media (max-width: 600px) {
+    #senators {
+        width: 90vw;
+    }
+
+    #senator-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .img img {
+        width: 150px;
+        height: 180px;
+    }
+
+    .senator-box {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+
+    }
 }
 
 .main_info {
