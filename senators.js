@@ -188,6 +188,7 @@ function makeSenatorList(senators) {
             } else if (key === "img") {
                 let img = document.createElement('img');
                 img.src = senator[key];
+                img.alt = "US Senator Image";
                 fieldEl.appendChild(img);
             } else {
                 fieldEl.innerText = key + " " + senator[key];
